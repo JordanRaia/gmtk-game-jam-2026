@@ -36,7 +36,6 @@ func _on_chip_selected(amount: int) -> void:
 	print("Selected chip value: ", GameState.current_selected_chip)
 
 func _process(delta: float) -> void:
-	balance_label.text = "BALANCE: $%d" % GameState.balance
 	
 	if GameState.time_remaining > 0:
 		GameState.time_remaining -= delta

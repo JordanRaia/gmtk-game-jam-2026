@@ -27,6 +27,8 @@
 [ext_resource type="Texture2D" uid="uid://b52u2edecrtko" path="res://Assets/art/luckbox.png" id="25_obg7t"]
 [ext_resource type="Texture2D" uid="uid://b073dbqx8e3p2" path="res://Assets/art/luckmeter.png" id="26_v3bin"]
 [ext_resource type="Texture2D" uid="uid://cpeek4y4d6y6k" path="res://Assets/art/luckdial.png" id="27_6dw4c"]
+[ext_resource type="Script" uid="uid://bexer04lrku7d" path="res://Scripts/Balance.gd" id="28_6dw4c"]
+[ext_resource type="Texture2D" uid="uid://ujf5nlmdxyyj" path="res://Assets/art/balance.png" id="28_v3bin"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dh88x"]
 animations = [{
@@ -104,18 +106,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="BalanceLabel" type="Label" parent="CanvasLayer/UI_Layer" unique_id=695806010]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_top = 16.0
-offset_right = 20.0
-offset_bottom = 39.0
-grow_horizontal = 2
-horizontal_alignment = 1
 
 [node name="TimerLabel" type="Label" parent="CanvasLayer/UI_Layer" unique_id=1680922433]
 layout_mode = 1
@@ -784,5 +774,82 @@ offset_right = 730.0
 offset_bottom = 596.0
 pivot_offset = Vector2(349, 400)
 texture = ExtResource("27_6dw4c")
+
+[node name="Balance" type="Control" parent="CanvasLayer/UI_Layer" unique_id=1587663833]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -201.00006
+offset_top = 15.999998
+offset_right = 953.0
+offset_bottom = 260.0
+grow_horizontal = 2
+scale = Vector2(0.35, 0.35)
+script = ExtResource("28_6dw4c")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance" unique_id=616558937]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("28_v3bin")
+
+[node name="Digits" type="GridContainer" parent="CanvasLayer/UI_Layer/Balance" unique_id=1747317039]
+layout_mode = 0
+offset_left = 648.0
+offset_top = 32.0
+offset_right = 1128.0
+offset_bottom = 188.0
+columns = 10
+
+[node name="Digit1" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=1079315807]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit2" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=1495575615]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit3" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=603017805]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit4" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=1707410972]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit5" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=1231007156]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit6" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=515489478]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit7" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=882496092]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit8" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=1009993062]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit9" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=2040366556]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Digit10" type="TextureRect" parent="CanvasLayer/UI_Layer/Balance/Digits" unique_id=1281621252]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
