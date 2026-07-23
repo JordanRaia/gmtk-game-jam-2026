@@ -13,6 +13,12 @@ extends Node2D
 
 var is_spinning: bool = false
 
+const LUCK_DIAL_DURATION: float = 0.8
+var _display_luck: float = 0.0
+var _luck_scroll_from: float = 0.0
+var _luck_target: int = 0
+var _luck_elapsed: float = 0.0
+
 func _ready() -> void:
 	chip_1000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 1000))
 	chip_5000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 5000))
@@ -23,6 +29,9 @@ func _ready() -> void:
 	
 	# Start looping the idle animation (first 8 frames)
 	spin_lever.play("idle")
+
+	_display_luck = float(GameState.luck_meter)
+	_luck_target = GameState.luck_meter
 
 func _on_chip_gui_input(event: InputEvent, amount: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -37,14 +46,21 @@ func _process(delta: float) -> void:
 		GameState.time_remaining -= delta
 	
 	
-	# --- Update Luck Dial Rotation ---
-	# Maps 0% to 100% across a 180-degree span (-90 degrees to +90 degrees)
-	# Adjust the base angle offset (deg_to_rad) if your art asset points straight up vs sideways by default.
-	var luck_normalized = clamp(GameState.luck_meter, 0, 100) / 100.0
-	
-	# 0% is far left (-90°) and 100% is far right (+90°)
-	var target_angle_deg = lerp(-90.0, 90.0, luck_normalized)
-	luck_dial.rotation = deg_to_rad(target_angle_deg)
+	# --- Update Luck Dial Rotation (animated) ---
+	var real_luck: int = clamp(GameState.luck_meter, 0, 100)
+	if real_luck != _luck_target:
+		_luck_scroll_from = _display_luck
+		_luck_target = real_luck
+		_luck_elapsed = 0.0
+
+	if _luck_elapsed < LUCK_DIAL_DURATION:
+		_luck_elapsed += delta
+		var t: float = clamp(_luck_elapsed / LUCK_DIAL_DURATION, 0.0, 1.0)
+		t = 1.0 - pow(1.0 - t, 3.0)
+		_display_luck = lerpf(_luck_scroll_from, float(_luck_target), t)
+
+	var luck_normalized: float = _display_luck / 100.0
+	luck_dial.rotation = deg_to_rad(lerp(-90.0, 90.0, luck_normalized))
 
 # Triggered when clicking the Area2D shape over the lever
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
