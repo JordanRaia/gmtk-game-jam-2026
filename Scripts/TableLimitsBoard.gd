@@ -4,11 +4,17 @@ extends Control
 	set(value):
 		min_value = value
 		update_board()
+		# Propagate to GameState so the rest of the game can enforce it
+		if GameState:
+			GameState.table_min_bet = min_value
 
 @export var max_value: int = 250000:
 	set(value):
 		max_value = value
 		update_board()
+		# Propagate to GameState so the rest of the game can enforce it
+		if GameState:
+			GameState.table_max_bet = max_value
 
 var number_textures = [
 	preload("res://Assets/Numbers/0.png"),
@@ -43,9 +49,12 @@ var comma_texture = preload("res://Assets/Numbers/comma.png")
 
 func _ready() -> void:
 	update_board()
+	# Make sure GameState reflects the current board values on startup
+	GameState.table_min_bet = min_value
+	GameState.table_max_bet = max_value
 
 func update_board() -> void:
-	if min_digits.is_empty() or min_digits[0] == null:
+	if min_digits == null or min_digits.is_empty() or min_digits[0] == null:
 		return
 	
 	# $9,999,999 = 10 chars, which is the max for 10 nodes

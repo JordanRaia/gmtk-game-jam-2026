@@ -600,6 +600,7 @@ offset_right = 1193.0
 offset_bottom = 486.0
 scale = Vector2(0.4, 0.4)
 script = ExtResource("5_a814b")
+min_value = 25000
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard" unique_id=1678436031]
 layout_mode = 1
