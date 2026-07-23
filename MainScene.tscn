@@ -12,24 +12,42 @@ script = ExtResource("1_uxrcv")
 
 [node name="UI_Layer" type="Control" parent="CanvasLayer" unique_id=1684836525]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="BalanceLabel" type="Label" parent="CanvasLayer/UI_Layer" unique_id=695806010]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 16.0
+offset_right = 20.0
+offset_bottom = 39.0
+grow_horizontal = 2
+horizontal_alignment = 1
 
 [node name="TimerLabel" type="Label" parent="CanvasLayer/UI_Layer" unique_id=1680922433]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 39.0
 
 [node name="LuckLabel" type="Label" parent="CanvasLayer/UI_Layer" unique_id=377824550]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 39.0
+grow_horizontal = 0
+horizontal_alignment = 2
 
 [node name="TableLimitsPanel" type="Control" parent="CanvasLayer/UI_Layer" unique_id=524415909]
 anchors_preset = 0
@@ -53,11 +71,18 @@ text = "MIN: $1,000
 MAX: $250,000"
 
 [node name="ChipTray" type="HBoxContainer" parent="CanvasLayer/UI_Layer" unique_id=2076036332]
-layout_mode = 0
-offset_left = 392.0
-offset_top = 632.0
-offset_right = 586.0
-offset_bottom = 672.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -97.0
+offset_top = -47.0
+offset_right = 97.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="Chip1000" type="Button" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1920375522]
 layout_mode = 2
@@ -76,34 +101,408 @@ text = "$25,000"
 script = ExtResource("2_rf2cd")
 chip_value = 25000
 
+[node name="SpinButton" type="Button" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1853546206]
+layout_mode = 2
+text = "SPIN"
+
 [node name="RouletteTable" type="TextureRect" parent="CanvasLayer/UI_Layer" unique_id=87814310]
-layout_mode = 0
-offset_left = 176.0
-offset_top = 184.0
-offset_right = 1034.0
-offset_bottom = 525.0
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 96.0
+offset_top = -175.0
+offset_right = 936.0
+offset_bottom = 175.0
+grow_vertical = 2
 texture = ExtResource("3_uxrcv")
 
-[node name="BetSpot_Red" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=2090576196]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=1336192877]
 layout_mode = 0
-offset_left = 206.0
+offset_left = 74.0
+offset_top = 50.0
+offset_right = 444.0
+offset_bottom = 218.0
+columns = 12
+
+[node name="34" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=324455702]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "34"
+
+[node name="31" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1569917823]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "31"
+
+[node name="28" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1031915231]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "28"
+
+[node name="25" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=519168715]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "25"
+
+[node name="22" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1476565776]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "22"
+
+[node name="19" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=137314108]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "19"
+
+[node name="16" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1798368998]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "16"
+
+[node name="13" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1282719000]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "13"
+
+[node name="10" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=81534573]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "10"
+
+[node name="7" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1830426807]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "7"
+
+[node name="4" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=43987420]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "4"
+
+[node name="1" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1796060905]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "1"
+
+[node name="35" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=408450441]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "35"
+
+[node name="32" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=673208007]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "32"
+
+[node name="29" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=635331368]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "29"
+
+[node name="26" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=6311759]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "26"
+
+[node name="23" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=2002911894]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "23"
+
+[node name="20" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=576058779]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "20"
+
+[node name="17" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=978347788]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "17"
+
+[node name="14" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1766995771]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "14"
+
+[node name="11" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1594192426]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "11"
+
+[node name="8" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=7725999]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "8"
+
+[node name="5" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=239210513]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "5"
+
+[node name="2" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=817647067]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "2"
+
+[node name="36" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1283685836]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "36"
+
+[node name="33" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1974721007]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "33"
+
+[node name="30" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=751882218]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "30"
+
+[node name="27" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=972595874]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "27"
+
+[node name="24" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1234682412]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "24"
+
+[node name="21" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=1163558399]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "21"
+
+[node name="18" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=103833339]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "18"
+
+[node name="15" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=364843855]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "15"
+
+[node name="12" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=763052447]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "12"
+
+[node name="9" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=701397299]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "9"
+
+[node name="6" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=284023759]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "6"
+
+[node name="3" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer" unique_id=37291066]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "3"
+
+[node name="GridContainer2" type="GridContainer" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=233496460]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 219.0
+offset_right = 449.0
+offset_bottom = 259.0
+columns = 3
+
+[node name="1st12" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer2" unique_id=982936437]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "1st12"
+
+[node name="2nd12" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer2" unique_id=764294373]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "2nd12"
+
+[node name="3rd12" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer2" unique_id=1596568762]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "3rd12"
+
+[node name="GridContainer3" type="GridContainer" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=325383157]
+layout_mode = 0
+offset_left = 75.0
 offset_top = 261.0
-offset_right = 267.0
+offset_right = 452.0
 offset_bottom = 301.0
-script = ExtResource("4_5crlr")
+columns = 6
 
-[node name="BetSpot_Even" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=19913335]
-layout_mode = 0
-offset_left = 140.0
-offset_top = 262.0
-offset_right = 200.0
-offset_bottom = 302.0
+[node name="1thu18" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer3" unique_id=1345856688]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("4_5crlr")
+bet_id = "1thu18"
 
-[node name="BetSpot_Number17" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=713720313]
-layout_mode = 0
-offset_left = 265.0
-offset_top = 103.0
-offset_right = 297.0
-offset_bottom = 159.0
+[node name="even" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer3" unique_id=1558528787]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("4_5crlr")
+bet_id = "even"
+
+[node name="red" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer3" unique_id=1866814198]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "red"
+
+[node name="black" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer3" unique_id=1578202673]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "black"
+
+[node name="odd" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer3" unique_id=1615690197]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "odd"
+
+[node name="19thu38" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer3" unique_id=443717599]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "19thu38"
+
+[node name="GridContainer4" type="GridContainer" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=715521691]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 50.0
+offset_right = 72.0
+offset_bottom = 218.0
+
+[node name="row1" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer4" unique_id=693484056]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "row1"
+
+[node name="row2" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer4" unique_id=1691648476]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "row2"
+
+[node name="row3" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer4" unique_id=1388078625]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "row3"
+
+[node name="GridContainer5" type="GridContainer" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=699445178]
+layout_mode = 0
+offset_left = 447.0
+offset_top = 46.0
+offset_right = 505.0
+offset_bottom = 215.0
+
+[node name="zero" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer5" unique_id=2016885559]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "zero"
+
+[node name="doublezero" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable/GridContainer5" unique_id=1585633368]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("4_5crlr")
+bet_id = "doublezero"
+
+[connection signal="pressed" from="CanvasLayer/UI_Layer/ChipTray/SpinButton" to="." method="_on_spin_button_pressed"]
