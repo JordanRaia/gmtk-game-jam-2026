@@ -11,6 +11,9 @@ extends Node2D
 # References to your lever nodes
 @onready var spin_lever: AnimatedSprite2D = $CanvasLayer/UI_Layer/ChipTray/SpinLever
 
+# Luck Dial
+@onready var luck_dial: TextureRect = $CanvasLayer/UI_Layer/LuckGauge/LuckDial
+
 var is_spinning: bool = false
 
 func _ready() -> void:
@@ -43,6 +46,15 @@ func _process(delta: float) -> void:
 	timer_label.text = "TIME: %02d:%02d" % [minutes, seconds]
 	
 	luck_label.text = "LUCK: %d%%" % GameState.luck_meter
+	
+	# --- Update Luck Dial Rotation ---
+	# Maps 0% to 100% across a 180-degree span (-90 degrees to +90 degrees)
+	# Adjust the base angle offset (deg_to_rad) if your art asset points straight up vs sideways by default.
+	var luck_normalized = clamp(GameState.luck_meter, 0, 100) / 100.0
+	
+	# 0% is far left (-90°) and 100% is far right (+90°)
+	var target_angle_deg = lerp(-90.0, 90.0, luck_normalized)
+	luck_dial.rotation = deg_to_rad(target_angle_deg)
 
 # Triggered when clicking the Area2D shape over the lever
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
@@ -83,7 +95,7 @@ func _calculate_payout_for_number(num: int, red_numbers: Array, black_numbers: A
 		win_str = "doublezero"
 
 	var is_even = (num != 0 and num != 37 and num % 2 == 0)
-	var is_odd  = (num != 0 and num != 37 and num % 2 != 0)
+	var is_odd = (num != 0 and num != 37 and num % 2 != 0)
 
 	var total: int = 0
 	for bet_id in GameState.active_bets.keys():

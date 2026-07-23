@@ -24,6 +24,9 @@
 [ext_resource type="Texture2D" uid="uid://b2oyy35o5ur2q" path="res://Assets/art/leveranim/lever_0014.png" id="18_f3pw5"]
 [ext_resource type="Texture2D" uid="uid://catoursctv8u7" path="res://Assets/art/leveranim/lever_0015.png" id="19_nlw8m"]
 [ext_resource type="Texture2D" uid="uid://dgjeco2sf0o4s" path="res://Assets/art/leveranim/lever_0016.png" id="20_r1x6n"]
+[ext_resource type="Texture2D" uid="uid://b52u2edecrtko" path="res://Assets/art/luckbox.png" id="25_obg7t"]
+[ext_resource type="Texture2D" uid="uid://b073dbqx8e3p2" path="res://Assets/art/luckmeter.png" id="26_v3bin"]
+[ext_resource type="Texture2D" uid="uid://cpeek4y4d6y6k" path="res://Assets/art/luckdial.png" id="27_6dw4c"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dh88x"]
 animations = [{
@@ -746,5 +749,40 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch_mode = 5
+
+[node name="LuckGauge" type="Control" parent="CanvasLayer/UI_Layer" unique_id=325801013]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -344.0
+offset_top = 15.999999
+offset_right = -304.00006
+offset_bottom = 56.0
+grow_horizontal = 0
+scale = Vector2(0.45, 0.45)
+
+[node name="LuckBox" type="TextureRect" parent="CanvasLayer/UI_Layer/LuckGauge" unique_id=167033635]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("25_obg7t")
+
+[node name="LuckMeter" type="TextureRect" parent="CanvasLayer/UI_Layer/LuckGauge" unique_id=371524725]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 96.0
+offset_right = 730.0
+offset_bottom = 596.0
+texture = ExtResource("26_v3bin")
+
+[node name="LuckDial" type="TextureRect" parent="CanvasLayer/UI_Layer/LuckGauge" unique_id=1108187095]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 96.0
+offset_right = 730.0
+offset_bottom = 596.0
+pivot_offset = Vector2(349, 400)
+texture = ExtResource("27_6dw4c")
 
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
