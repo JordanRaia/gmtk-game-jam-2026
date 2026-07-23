@@ -6,6 +6,9 @@
 [ext_resource type="Script" uid="uid://b4xp81d6dywgf" path="res://Scripts/BettingDropZone.gd" id="4_5crlr"]
 [ext_resource type="Script" uid="uid://nr0io8g5x058" path="res://Scripts/TableLimitsBoard.gd" id="5_a814b"]
 [ext_resource type="Texture2D" uid="uid://yoh5bbv8j7mb" path="res://Assets/tablelimits.png" id="6_5crlr"]
+[ext_resource type="Texture2D" uid="uid://syktsk6al06o" path="res://Assets/art/1kchip.png" id="7_1kchip"]
+[ext_resource type="Texture2D" uid="uid://b0s1dkjvh7f4w" path="res://Assets/art/5kchip.png" id="8_5kchip"]
+[ext_resource type="Texture2D" uid="uid://bkaqfy23th3qe" path="res://Assets/art/25k.png" id="9_25kchip"]
 
 [node name="Main Scene" type="Node2D" unique_id=1180250988]
 script = ExtResource("1_uxrcv")
@@ -58,33 +61,40 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -97.0
-offset_top = -47.0
-offset_right = 97.0
+offset_left = -242.25
+offset_top = -100.0
+offset_right = 242.25
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Chip1000" type="Button" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1920375522]
+[node name="Chip1000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=575246137]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "$1,000"
+texture = ExtResource("7_1kchip")
+expand_mode = 1
 script = ExtResource("2_rf2cd")
 
-[node name="Chip5000" type="Button" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=30108271]
+[node name="Chip5000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1275956127]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "$5,000"
+texture = ExtResource("8_5kchip")
+expand_mode = 1
 script = ExtResource("2_rf2cd")
 chip_value = 5000
 
-[node name="Chip25000" type="Button" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1345217810]
+[node name="Chip25000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=42250852]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-text = "$25,000"
+texture = ExtResource("9_25kchip")
+expand_mode = 1
+stretch_mode = 5
 script = ExtResource("2_rf2cd")
 chip_value = 25000
 
 [node name="SpinButton" type="Button" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1853546206]
 layout_mode = 2
-text = "SPIN"
+text = "          SPIN          "
 
 [node name="RouletteTable" type="TextureRect" parent="CanvasLayer/UI_Layer" unique_id=87814310]
 layout_mode = 1

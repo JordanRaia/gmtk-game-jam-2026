@@ -4,14 +4,18 @@ extends Node2D
 @onready var timer_label: Label = $CanvasLayer/UI_Layer/TimerLabel
 @onready var luck_label: Label = $CanvasLayer/UI_Layer/LuckLabel
 
-@onready var chip_1000: Button = $CanvasLayer/UI_Layer/ChipTray/Chip1000
-@onready var chip_5000: Button = $CanvasLayer/UI_Layer/ChipTray/Chip5000
-@onready var chip_25000: Button = $CanvasLayer/UI_Layer/ChipTray/Chip25000
+@onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip1000
+@onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip5000
+@onready var chip_25000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip25000
 
 func _ready() -> void:
-	chip_1000.pressed.connect(func(): _on_chip_selected(1000))
-	chip_5000.pressed.connect(func(): _on_chip_selected(5000))
-	chip_25000.pressed.connect(func(): _on_chip_selected(25000))
+	chip_1000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 1000))
+	chip_5000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 5000))
+	chip_25000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 25000))
+
+func _on_chip_gui_input(event: InputEvent, amount: int) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_on_chip_selected(amount)
 
 func _on_chip_selected(amount: int) -> void:
 	GameState.current_selected_chip = amount
