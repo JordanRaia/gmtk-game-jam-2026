@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cxgrh0ikkpw20"]
 
 [ext_resource type="Script" uid="uid://spw3cuhr515e" path="res://Scripts/MainScene.gd" id="1_uxrcv"]
+[ext_resource type="Texture2D" uid="uid://bs6bonvhp1tn1" path="res://Assets/art/carpet.png" id="2_8xkvn"]
 [ext_resource type="Script" uid="uid://c74l6cmgccyo8" path="res://Scripts/DraggableChip.gd" id="2_rf2cd"]
 [ext_resource type="Texture2D" uid="uid://dx7y44hqxonft" path="res://Assets/PlaceHolders/rouletteboard.png" id="3_uxrcv"]
 [ext_resource type="Script" uid="uid://b4xp81d6dywgf" path="res://Scripts/BettingDropZone.gd" id="4_5crlr"]
@@ -14,6 +15,15 @@
 script = ExtResource("1_uxrcv")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2004155419]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=609380274]
+offset_left = -1280.0
+offset_top = -720.0
+offset_right = 2560.0
+offset_bottom = 1440.0
+texture = ExtResource("2_8xkvn")
+expand_mode = 1
+stretch_mode = 1
 
 [node name="UI_Layer" type="Control" parent="CanvasLayer" unique_id=1684836525]
 layout_mode = 3
