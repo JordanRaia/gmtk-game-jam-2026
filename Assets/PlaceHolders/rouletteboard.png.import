@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bygkhkq2kup4y"
-path="res://.godot/imported/roulette-wheel.jpg-ade89309b05d8e2666ca8bb2f0da0300.ctex"
+uid="uid://dx7y44hqxonft"
+path="res://.godot/imported/rouletteboard.png-d155667c4d90d5c511ecf2cc0ed324e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlaceHolders/roulette-wheel.jpg"
-dest_files=["res://.godot/imported/roulette-wheel.jpg-ade89309b05d8e2666ca8bb2f0da0300.ctex"]
+source_file="res://Assets/PlaceHolders/rouletteboard.png"
+dest_files=["res://.godot/imported/rouletteboard.png-d155667c4d90d5c511ecf2cc0ed324e4.ctex"]
 
 [params]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://spw3cuhr515e" path="res://Scripts/MainScene.gd" id="1_uxrcv"]
 [ext_resource type="Script" uid="uid://c74l6cmgccyo8" path="res://Scripts/DraggableChip.gd" id="2_rf2cd"]
-[ext_resource type="Texture2D" uid="uid://bygkhkq2kup4y" path="res://Assets/PlaceHolders/roulette-wheel.jpg" id="3_uxrcv"]
+[ext_resource type="Texture2D" uid="uid://dx7y44hqxonft" path="res://Assets/PlaceHolders/rouletteboard.png" id="3_uxrcv"]
 [ext_resource type="Script" uid="uid://b4xp81d6dywgf" path="res://Scripts/BettingDropZone.gd" id="4_5crlr"]
 
 [node name="Main Scene" type="Node2D" unique_id=1180250988]
@@ -86,24 +86,24 @@ texture = ExtResource("3_uxrcv")
 
 [node name="BetSpot_Red" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=2090576196]
 layout_mode = 0
-offset_left = 308.0
-offset_top = 260.0
-offset_right = 426.0
-offset_bottom = 300.0
+offset_left = 206.0
+offset_top = 261.0
+offset_right = 267.0
+offset_bottom = 301.0
 script = ExtResource("4_5crlr")
 
 [node name="BetSpot_Even" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=19913335]
 layout_mode = 0
-offset_left = 188.0
-offset_top = 261.0
-offset_right = 306.0
-offset_bottom = 301.0
+offset_left = 140.0
+offset_top = 262.0
+offset_right = 200.0
+offset_bottom = 302.0
 script = ExtResource("4_5crlr")
 
 [node name="BetSpot_Number17" type="Panel" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=713720313]
 layout_mode = 0
-offset_left = 369.0
-offset_top = 81.0
-offset_right = 424.0
-offset_bottom = 144.0
+offset_left = 265.0
+offset_top = 103.0
+offset_right = 297.0
+offset_bottom = 159.0
 script = ExtResource("4_5crlr")
