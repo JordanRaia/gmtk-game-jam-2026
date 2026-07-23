@@ -12,10 +12,12 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
     
     # Center the preview on the mouse cursor
     var preview_control = Control.new()
+    # Render the drag preview above everything else while dragging
+    preview_control.z_index = 4096
     preview_control.add_child(preview_texture)
     preview_texture.position = -0.5 * drag_size
     
     set_drag_preview(preview_control)
     
     # Return the data payload you want to send to the drop zone
-    return {"amount": chip_value}
+    return {"amount": chip_value, "texture": texture}
