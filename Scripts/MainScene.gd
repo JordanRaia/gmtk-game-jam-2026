@@ -1,7 +1,5 @@
 extends Node2D
 
-@onready var timer_label: Label = $CanvasLayer/UI_Layer/TimerLabel
-@onready var luck_label: Label = $CanvasLayer/UI_Layer/LuckLabel
 
 @onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip1000
 @onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip5000
@@ -38,11 +36,6 @@ func _process(delta: float) -> void:
 	if GameState.time_remaining > 0:
 		GameState.time_remaining -= delta
 	
-	var minutes = int(GameState.time_remaining) / 60
-	var seconds = int(GameState.time_remaining) % 60
-	timer_label.text = "TIME: %02d:%02d" % [minutes, seconds]
-	
-	luck_label.text = "LUCK: %d%%" % GameState.luck_meter
 	
 	# --- Update Luck Dial Rotation ---
 	# Maps 0% to 100% across a 180-degree span (-90 degrees to +90 degrees)
