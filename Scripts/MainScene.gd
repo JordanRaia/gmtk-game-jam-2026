@@ -11,6 +11,9 @@ extends Node2D
 # Luck Dial
 @onready var luck_dial: TextureRect = $CanvasLayer/UI_Layer/LuckGauge/LuckDial
 
+# Roulette wheel pivot (Node2D at the center of the wheel graphic)
+@onready var wheel_pivot: Node2D = $CanvasLayer/WheelPivot
+
 var is_spinning: bool = false
 
 const LUCK_DIAL_DURATION: float = 0.8
@@ -19,6 +22,8 @@ var _luck_scroll_from: float = 0.0
 var _luck_target: int = 0
 var _luck_elapsed: float = 0.0
 
+var _pending_winning_number: int = 0
+
 func _ready() -> void:
 	chip_1000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 1000))
 	chip_5000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 5000))
@@ -26,6 +31,9 @@ func _ready() -> void:
 	
 	# Connect the animation finished signal to handle post-pull logic
 	spin_lever.animation_finished.connect(_on_lever_animation_finished)
+	
+	# Connect the wheel spin finished signal
+	wheel_pivot.spin_finished.connect(_on_wheel_spin_finished)
 	
 	# Start looping the idle animation (first 8 frames)
 	spin_lever.play("idle")
@@ -63,7 +71,7 @@ func _process(delta: float) -> void:
 	luck_dial.rotation = deg_to_rad(lerp(-90.0, 90.0, luck_normalized))
 
 # Triggered when clicking the Area2D shape over the lever
-func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if is_spinning:
 		return
 
@@ -86,22 +94,60 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 # Triggered automatically when the 'pull' animation completes
 func _on_lever_animation_finished() -> void:
 	if spin_lever.animation == "pull":
-		execute_spin_logic()
-		
-		# Return back to idle loop and allow pulling again
+		_calculate_and_start_spin()
+
+		# Return lever to idle — is_spinning stays true until the ball lands
 		spin_lever.play("idle")
-		is_spinning = false
+
+## Calculates the winning number using existing luck math, then starts the ball animation.
+## Results are NOT applied yet — that happens in _on_wheel_spin_finished.
+func _calculate_and_start_spin() -> void:
+	var red_numbers: Array = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
+	var black_numbers: Array = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
+
+	# --- Luck System ---
+	var best_number: int = randi() % 38
+	var best_payout: int = -1
+	for candidate in range(38):
+		var candidate_payout: int = _calculate_payout_for_number(candidate, red_numbers, black_numbers)
+		if candidate_payout > best_payout:
+			best_payout = candidate_payout
+			best_number = candidate
+
+	var winning_number: int
+	if randf() < (GameState.luck_meter / 100.0):
+		winning_number = best_number
+		print("★ LUCK (", GameState.luck_meter, "%) steered result to: ", winning_number, " (payout: $", best_payout, ")")
+	else:
+		winning_number = randi() % 38
+
+	_pending_winning_number = winning_number
+
+	var win_str: String = str(winning_number)
+	if winning_number == 0:
+		win_str = "zero"
+	elif winning_number == 37:
+		win_str = "doublezero"
+	print("--- SPINNING THE WHEEL ---")
+	print("The winning number is: ", win_str)
+
+	wheel_pivot.start_spin(winning_number)
+
+## Called when the ball animation finishes landing. Applies all bet results.
+func _on_wheel_spin_finished(winning_number: int) -> void:
+	_apply_spin_results(winning_number)
+	is_spinning = false
 
 ## Returns the total payout a given wheel number would produce for current active bets.
 func _calculate_payout_for_number(num: int, red_numbers: Array, black_numbers: Array) -> int:
-	var win_str = str(num)
+	var win_str: String = str(num)
 	if num == 0:
 		win_str = "zero"
 	elif num == 37:
 		win_str = "doublezero"
 
-	var is_even = (num != 0 and num != 37 and num % 2 == 0)
-	var is_odd = (num != 0 and num != 37 and num % 2 != 0)
+	var is_even: bool = (num != 0 and num != 37 and num % 2 == 0)
+	var is_odd: bool = (num != 0 and num != 37 and num % 2 != 0)
 
 	var total: int = 0
 	for bet_id in GameState.active_bets.keys():
@@ -145,58 +191,32 @@ func _calculate_payout_for_number(num: int, red_numbers: Array, black_numbers: A
 	return total
 
 
-func execute_spin_logic() -> void:
-	var red_numbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
-	var black_numbers = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
+func _apply_spin_results(winning_number: int) -> void:
+	var red_numbers: Array = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
+	var black_numbers: Array = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
 
-	# --- Luck System ---
-	# Find the wheel number that would give the highest return on current bets.
-	var best_number: int = randi() % 38
-	var best_payout: int = -1
-	for candidate in range(38):
-		var candidate_payout = _calculate_payout_for_number(candidate, red_numbers, black_numbers)
-		if candidate_payout > best_payout:
-			best_payout = candidate_payout
-			best_number = candidate
-
-	# luck_meter (0–100) is the % chance the result steers toward the best number.
-	# At 100% luck the best number always lands; at 0% luck the result is fully random.
-	var winning_number: int
-	if randf() < (GameState.luck_meter / 100.0):
-		winning_number = best_number
-		print("★ LUCK (", GameState.luck_meter, "%) steered result to: ", winning_number, " (payout: $", best_payout, ")")
-	else:
-		winning_number = randi() % 38
-
-	# Convert it to match your exact Bet IDs
-	var win_str = str(winning_number)
+	var win_str: String = str(winning_number)
 	if winning_number == 0:
 		win_str = "zero"
 	elif winning_number == 37:
 		win_str = "doublezero"
 
-	print("--- SPINNING THE WHEEL ---")
-	print("The winning number is: ", win_str)
+	var is_even: bool = (winning_number != 0 and winning_number != 37 and winning_number % 2 == 0)
+	var is_odd: bool = (winning_number != 0 and winning_number != 37 and winning_number % 2 != 0)
 
-	var is_even = (winning_number != 0 and winning_number != 37 and winning_number % 2 == 0)
-	var is_odd = (winning_number != 0 and winning_number != 37 and winning_number % 2 != 0)
-	
-	var total_winnings = 0
-	var total_bet = 0
+	var total_winnings: int = 0
+	var total_bet: int = 0
 
-	# 2. Iterate through the ledger and check every bet placed
 	for bet_id in GameState.active_bets.keys():
-		var bet_amount = GameState.active_bets[bet_id]
+		var bet_amount: int = GameState.active_bets[bet_id]
 		total_bet += bet_amount
-		var won = false
-		var payout_multiplier = 0 # Total return (winnings + original bet)
+		var won: bool = false
+		var payout_multiplier: int = 0
 
-		# Check Straight Up (Single Number) Bets
 		if bet_id == win_str:
 			won = true
-			payout_multiplier = 36 # 35 to 1 payout + original bet back
-			
-		# Check Outside Bets (only valid if it isn't 0 or 00)
+			payout_multiplier = 36
+
 		elif winning_number != 0 and winning_number != 37:
 			match bet_id:
 				"red":
@@ -218,28 +238,21 @@ func execute_spin_logic() -> void:
 				"3rd12":
 					if winning_number >= 25 and winning_number <= 36: won = true; payout_multiplier = 3
 				"row1":
-					# Top row on board (3, 6, 9, etc.)
 					if winning_number % 3 == 0: won = true; payout_multiplier = 3
 				"row2":
-					# Middle row on board (2, 5, 8, etc.)
 					if winning_number % 3 == 2: won = true; payout_multiplier = 3
 				"row3":
-					# Bottom row on board (1, 4, 7, etc.)
 					if winning_number % 3 == 1: won = true; payout_multiplier = 3
 
-		# 3. Calculate the punishment
 		if won:
-			var winnings = bet_amount * payout_multiplier
+			var winnings: int = bet_amount * payout_multiplier
 			total_winnings += winnings
 			print("FAILED (WON) bet on ", bet_id, "! Adding $", winnings, " back.")
 		else:
 			print("SUCCESS (LOST) bet on ", bet_id, "! Money burned.")
 
-	# 4. Finalize the Round
-	var net_loss = total_bet - total_winnings
+	var net_loss: int = total_bet - total_winnings
 	if total_winnings > 0:
-		# Calculate luck drain BEFORE adding winnings so the ratio uses
-		# the pre-win balance (otherwise the payout inflates the divisor).
 		var luck_drain: int = clamp(int(float(total_winnings) / float(GameState.balance) * 100.0), 1, 100)
 		GameState.luck_meter = max(0, GameState.luck_meter - luck_drain)
 		print("Luck drained by ", luck_drain, "% (payout: $", total_winnings, " vs pre-win balance: $", GameState.balance, ")")
@@ -249,17 +262,13 @@ func execute_spin_logic() -> void:
 	else:
 		print("Excellent! You successfully burned all the bets this round.")
 
-	# Gain luck from any money lost (net loss vs starting balance).
-	# Losing 10% of starting balance = +10% luck, capped at 100.
 	if net_loss > 0:
 		var luck_gain: int = clamp(int(float(net_loss) / float(GameState.starting_balance) * 100.0), 1, 100)
 		GameState.luck_meter = min(100, GameState.luck_meter + luck_gain)
 		print("Luck gained by ", luck_gain, "% (net loss: $", net_loss, " vs starting balance: $", GameState.starting_balance, ")")
 
-	# Clear the ledger for the next round
 	GameState.active_bets.clear()
-	
-	# Clear all visual chips from the board
+
 	for chip in get_tree().get_nodes_in_group("placed_chips"):
 		chip.queue_free()
 
