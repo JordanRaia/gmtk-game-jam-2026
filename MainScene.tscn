@@ -509,10 +509,10 @@ texture = ExtResource("6_5crlr")
 [node name="Min" type="GridContainer" parent="CanvasLayer/UI_Layer/TableLimitsBoard" unique_id=897518907]
 layout_mode = 0
 offset_left = 317.0
-offset_top = 159.0
-offset_right = 756.0
-offset_bottom = 234.0
-columns = 6
+offset_top = 150.0
+offset_right = 855.0
+offset_bottom = 225.0
+columns = 10
 
 [node name="Digit1" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=1614464389]
 layout_mode = 2
@@ -550,13 +550,37 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch_mode = 5
 
+[node name="Digit7" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=802845283]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit8" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=736035182]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit9" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=953533758]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit10" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=1916868861]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
 [node name="Max" type="GridContainer" parent="CanvasLayer/UI_Layer/TableLimitsBoard" unique_id=1160087247]
 layout_mode = 0
 offset_left = 317.0
-offset_top = 255.0
-offset_right = 755.0
-offset_bottom = 330.0
-columns = 6
+offset_top = 245.0
+offset_right = 852.5
+offset_bottom = 320.0
+columns = 10
 
 [node name="Digit1" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=1749576634]
 layout_mode = 2
@@ -589,6 +613,30 @@ size_flags_vertical = 3
 stretch_mode = 5
 
 [node name="Digit6" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=2137408916]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit7" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=516493667]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit8" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=965277533]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit9" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=354237014]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit10" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=752037282]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
