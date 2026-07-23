@@ -1,6 +1,5 @@
 extends Node2D
 
-@onready var balance_label: Label = $CanvasLayer/UI_Layer/BalanceLabel
 @onready var timer_label: Label = $CanvasLayer/UI_Layer/TimerLabel
 @onready var luck_label: Label = $CanvasLayer/UI_Layer/LuckLabel
 
@@ -36,7 +35,6 @@ func _on_chip_selected(amount: int) -> void:
 	print("Selected chip value: ", GameState.current_selected_chip)
 
 func _process(delta: float) -> void:
-	
 	if GameState.time_remaining > 0:
 		GameState.time_remaining -= delta
 	

@@ -29,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://cpeek4y4d6y6k" path="res://Assets/art/luckdial.png" id="27_6dw4c"]
 [ext_resource type="Script" uid="uid://bexer04lrku7d" path="res://Scripts/Balance.gd" id="28_6dw4c"]
 [ext_resource type="Texture2D" uid="uid://ujf5nlmdxyyj" path="res://Assets/art/balance.png" id="28_v3bin"]
+[ext_resource type="Texture2D" uid="uid://dahad1gommn6" path="res://Assets/art/time.png" id="30_cxdnd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dh88x"]
 animations = [{
@@ -851,5 +852,37 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Timer" type="Control" parent="CanvasLayer/UI_Layer" unique_id=2094778435]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI_Layer/Timer" unique_id=997318980]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("30_cxdnd")
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI_Layer/Timer" unique_id=1163667212]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Digit1" type="TextureRect" parent="CanvasLayer/UI_Layer/Timer/GridContainer" unique_id=601468287]
+layout_mode = 2
+
+[node name="Digit2" type="TextureRect" parent="CanvasLayer/UI_Layer/Timer/GridContainer" unique_id=829258886]
+layout_mode = 2
+
+[node name="Digit3" type="TextureRect" parent="CanvasLayer/UI_Layer/Timer/GridContainer" unique_id=1728254388]
+layout_mode = 2
+
+[node name="Digit4" type="TextureRect" parent="CanvasLayer/UI_Layer/Timer/GridContainer" unique_id=98265978]
+layout_mode = 2
+
+[node name="Digit5" type="TextureRect" parent="CanvasLayer/UI_Layer/Timer/GridContainer" unique_id=429777596]
+layout_mode = 2
 
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
