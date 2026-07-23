@@ -121,3 +121,7 @@ func _on_spin_button_pressed() -> void:
 
 	# Clear the ledger for the next round
 	GameState.active_bets.clear()
+	
+	# Clear all visual chips from the board
+	for chip in get_tree().get_nodes_in_group("placed_chips"):
+		chip.queue_free()
