@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://c74l6cmgccyo8" path="res://Scripts/DraggableChip.gd" id="2_rf2cd"]
 [ext_resource type="Texture2D" uid="uid://dx7y44hqxonft" path="res://Assets/PlaceHolders/rouletteboard.png" id="3_uxrcv"]
 [ext_resource type="Script" uid="uid://b4xp81d6dywgf" path="res://Scripts/BettingDropZone.gd" id="4_5crlr"]
+[ext_resource type="Script" uid="uid://nr0io8g5x058" path="res://Scripts/TableLimitsBoard.gd" id="5_a814b"]
+[ext_resource type="Texture2D" uid="uid://yoh5bbv8j7mb" path="res://Assets/tablelimits.png" id="6_5crlr"]
 
 [node name="Main Scene" type="Node2D" unique_id=1180250988]
 script = ExtResource("1_uxrcv")
@@ -49,27 +51,6 @@ offset_bottom = 39.0
 grow_horizontal = 0
 horizontal_alignment = 2
 
-[node name="TableLimitsPanel" type="Control" parent="CanvasLayer/UI_Layer" unique_id=524415909]
-anchors_preset = 0
-offset_left = 426.0
-offset_top = 106.0
-offset_right = 466.0
-offset_bottom = 146.0
-
-[node name="TitleLabel" type="Label" parent="CanvasLayer/UI_Layer/TableLimitsPanel" unique_id=492832524]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "TABLE LIMITS"
-
-[node name="LimitsLabel" type="Label" parent="CanvasLayer/UI_Layer/TableLimitsPanel" unique_id=1449015143]
-layout_mode = 0
-offset_top = 24.0
-offset_right = 113.0
-offset_bottom = 73.0
-text = "MIN: $1,000
-MAX: $250,000"
-
 [node name="ChipTray" type="HBoxContainer" parent="CanvasLayer/UI_Layer" unique_id=2076036332]
 layout_mode = 1
 anchors_preset = 7
@@ -111,9 +92,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 96.0
-offset_top = -175.0
+offset_top = -103.0
 offset_right = 936.0
-offset_bottom = 175.0
+offset_bottom = 247.0
 grow_vertical = 2
 texture = ExtResource("3_uxrcv")
 
@@ -504,5 +485,113 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("4_5crlr")
 bet_id = "doublezero"
+
+[node name="TableLimitsBoard" type="Control" parent="CanvasLayer/UI_Layer" unique_id=483301016]
+layout_mode = 1
+anchor_right = 0.03125
+anchor_bottom = 0.055555556
+offset_left = 311.99997
+offset_top = 143.99998
+offset_right = 1193.0
+offset_bottom = 486.0
+scale = Vector2(0.4, 0.4)
+script = ExtResource("5_a814b")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard" unique_id=1678436031]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_5crlr")
+
+[node name="Min" type="GridContainer" parent="CanvasLayer/UI_Layer/TableLimitsBoard" unique_id=897518907]
+layout_mode = 0
+offset_left = 317.0
+offset_top = 159.0
+offset_right = 756.0
+offset_bottom = 234.0
+columns = 6
+
+[node name="Digit1" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=1614464389]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit2" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=1565797974]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit3" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=1238858620]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit4" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=417733060]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit5" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=200224327]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit6" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Min" unique_id=710511368]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Max" type="GridContainer" parent="CanvasLayer/UI_Layer/TableLimitsBoard" unique_id=1160087247]
+layout_mode = 0
+offset_left = 317.0
+offset_top = 255.0
+offset_right = 755.0
+offset_bottom = 330.0
+columns = 6
+
+[node name="Digit1" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=1749576634]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit2" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=1412171434]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit3" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=177478538]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit4" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=1376350502]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit5" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=324856741]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="Digit6" type="TextureRect" parent="CanvasLayer/UI_Layer/TableLimitsBoard/Max" unique_id=2137408916]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch_mode = 5
 
 [connection signal="pressed" from="CanvasLayer/UI_Layer/ChipTray/SpinButton" to="." method="_on_spin_button_pressed"]
