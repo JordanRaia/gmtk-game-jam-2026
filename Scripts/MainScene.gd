@@ -8,10 +8,21 @@ extends Node2D
 @onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip5000
 @onready var chip_25000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip25000
 
+# References to your lever nodes
+@onready var spin_lever: AnimatedSprite2D = $CanvasLayer/UI_Layer/ChipTray/SpinLever
+
+var is_spinning: bool = false
+
 func _ready() -> void:
 	chip_1000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 1000))
 	chip_5000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 5000))
 	chip_25000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 25000))
+	
+	# Connect the animation finished signal to handle post-pull logic
+	spin_lever.animation_finished.connect(_on_lever_animation_finished)
+	
+	# Start looping the idle animation (first 8 frames)
+	spin_lever.play("idle")
 
 func _on_chip_gui_input(event: InputEvent, amount: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -33,11 +44,30 @@ func _process(delta: float) -> void:
 	
 	luck_label.text = "LUCK: %d%%" % GameState.luck_meter
 
-func _on_spin_button_pressed() -> void:
-	if GameState.active_bets.is_empty():
-		print("Place a bet first!")
+# Triggered when clicking the Area2D shape over the lever
+func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if is_spinning:
 		return
 
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		if GameState.active_bets.is_empty():
+			print("Place a bet first!")
+			return
+
+		is_spinning = true
+		# Play the pull animation (remaining frames)
+		spin_lever.play("pull")
+
+# Triggered automatically when the 'pull' animation completes
+func _on_lever_animation_finished() -> void:
+	if spin_lever.animation == "pull":
+		execute_spin_logic()
+		
+		# Return back to idle loop and allow pulling again
+		spin_lever.play("idle")
+		is_spinning = false
+
+func execute_spin_logic() -> void:
 	# 1. Pick a random number between 0 and 37 (37 represents '00')
 	var winning_number = randi() % 38
 	
@@ -125,3 +155,16 @@ func _on_spin_button_pressed() -> void:
 	# Clear all visual chips from the board
 	for chip in get_tree().get_nodes_in_group("placed_chips"):
 		chip.queue_free()
+
+
+func _on_control_gui_input(event: InputEvent) -> void:
+	if is_spinning:
+		return
+
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		if GameState.active_bets.is_empty():
+			print("Place a bet first!")
+			return
+
+		is_spinning = true
+		spin_lever.play("pull")
