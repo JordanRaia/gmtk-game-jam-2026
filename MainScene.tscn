@@ -31,6 +31,8 @@
 [ext_resource type="Texture2D" uid="uid://ujf5nlmdxyyj" path="res://Assets/art/balance.png" id="28_v3bin"]
 [ext_resource type="Texture2D" uid="uid://dahad1gommn6" path="res://Assets/art/time.png" id="30_cxdnd"]
 [ext_resource type="Script" uid="uid://c8na0uqudkt2r" path="res://Scripts/Timer.gd" id="30_ro037"]
+[ext_resource type="Texture2D" uid="uid://bmxc0peu2cfrk" path="res://Assets/art/ball.png" id="32_lppff"]
+[ext_resource type="Script" uid="uid://cjar8g23mh4ts" path="res://Scripts/RouletteWheel.gd" id="33_5o6vq"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dh88x"]
 animations = [{
@@ -852,10 +854,10 @@ texture = ExtResource("30_cxdnd")
 
 [node name="Digits" type="GridContainer" parent="CanvasLayer/UI_Layer/Timer" unique_id=1163667212]
 layout_mode = 0
-offset_left = 432.0
-offset_top = 32.0
-offset_right = 730.0
-offset_bottom = 183.0
+offset_left = 546.2859
+offset_top = 42.857132
+offset_right = 844.2859
+offset_bottom = 191.42854
 columns = 5
 
 [node name="Digit1" type="TextureRect" parent="CanvasLayer/UI_Layer/Timer/Digits" unique_id=601468287]
@@ -882,5 +884,13 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="WheelPivot" type="Node2D" parent="CanvasLayer" unique_id=2052149676]
+position = Vector2(758, 428)
+script = ExtResource("33_5o6vq")
+
+[node name="Ball" type="Sprite2D" parent="CanvasLayer/WheelPivot" unique_id=2133209669]
+scale = Vector2(0.035, 0.035)
+texture = ExtResource("32_lppff")
 
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
