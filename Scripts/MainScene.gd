@@ -84,12 +84,13 @@ func _apply_stage_config() -> void:
 	table_limits_board.max_value = cfg[3]
 	GameState.luck_meter = cfg[5]
 
-	chip_1000.visible = true
-	chip_5000.visible = true
-	chip_10000.visible = true
-	chip_25000.visible = true
-	chip_50000.visible = true
-	chip_100000.visible = true
+	var table_max: int = cfg[3]
+	chip_1000.visible = 1000 <= table_max
+	chip_5000.visible = 5000 <= table_max
+	chip_10000.visible = 10000 <= table_max
+	chip_25000.visible = 25000 <= table_max
+	chip_50000.visible = 50000 <= table_max
+	chip_100000.visible = 100000 <= table_max
 
 func _set_banner_y(y: float) -> void:
 	var banner_tex_size: Vector2 = error_banner.get_texture().get_size()
@@ -120,7 +121,7 @@ func _dismiss_miku() -> void:
 		_miku_tween = null
 	var frame_tex: Texture2D = miku_sprite.sprite_frames.get_frame_texture("happy", 0)
 	var scaled_half_width: float = (frame_tex.get_width() * miku_sprite.scale.x) / 2.0
-	miku_sprite.position.x = -(scaled_half_width + 20.0)
+	miku_sprite.position.x = - (scaled_half_width + 20.0)
 	miku_sprite.stop()
 	_miku_showing = false
 
