@@ -13,7 +13,7 @@ static func format_money(n: int) -> String:
 		count += 1
 	return result
 
-var balance: int = 1000000
+var balance: int = 100000
 var starting_balance: int = 1000000 # Reference for luck gain/drain calculations
 var time_remaining: float = 180.0 # 3 minutes countdown
 var luck_meter: int = 50

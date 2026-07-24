@@ -15,6 +15,7 @@ extends Node2D
 
 # References to your lever nodes
 @onready var spin_lever: AnimatedSprite2D = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever
+@onready var table_limits_board: Control = $CanvasLayer/UI_Layer/TableLimitsBoard
 
 # Luck Dial
 @onready var luck_dial: TextureRect = $CanvasLayer/UI_Layer/LuckGauge/LuckDial
@@ -56,6 +57,8 @@ func _ready() -> void:
 
 	# Park the error banner above the top of the screen
 	_set_banner_y(-error_banner.get_texture().get_size().y)
+
+	_check_table_minimum()
 
 func _set_banner_y(y: float) -> void:
 	var banner_tex_size: Vector2 = error_banner.get_texture().get_size()
@@ -343,6 +346,15 @@ func _apply_spin_results(winning_number: int) -> void:
 
 	for chip in get_tree().get_nodes_in_group("placed_chips"):
 		chip.queue_free()
+
+	_check_table_minimum()
+
+
+## Drops the table minimum to $0 if the player's balance is below it,
+## allowing them to bet everything they have left.
+func _check_table_minimum() -> void:
+	if GameState.balance < GameState.table_min_bet:
+		table_limits_board.min_value = 0
 
 
 func _on_control_gui_input(event: InputEvent) -> void:
