@@ -173,11 +173,11 @@ func _calculate_payout_for_number(num: int, red_numbers: Array, black_numbers: A
 				"19thu38":
 					if num >= 19 and num <= 36: won = true; payout_multiplier = 2
 				"1st12":
-					if num >= 1 and num <= 12: won = true; payout_multiplier = 3
+					if num >= 25 and num <= 36: won = true; payout_multiplier = 3
 				"2nd12":
 					if num >= 13 and num <= 24: won = true; payout_multiplier = 3
 				"3rd12":
-					if num >= 25 and num <= 36: won = true; payout_multiplier = 3
+					if num >= 1 and num <= 12: won = true; payout_multiplier = 3
 				"row1":
 					if num % 3 == 0: won = true; payout_multiplier = 3
 				"row2":
@@ -232,11 +232,11 @@ func _apply_spin_results(winning_number: int) -> void:
 				"19thu38":
 					if winning_number >= 19 and winning_number <= 36: won = true; payout_multiplier = 2
 				"1st12":
-					if winning_number >= 1 and winning_number <= 12: won = true; payout_multiplier = 3
+					if winning_number >= 25 and winning_number <= 36: won = true; payout_multiplier = 3
 				"2nd12":
 					if winning_number >= 13 and winning_number <= 24: won = true; payout_multiplier = 3
 				"3rd12":
-					if winning_number >= 25 and winning_number <= 36: won = true; payout_multiplier = 3
+					if winning_number >= 1 and winning_number <= 12: won = true; payout_multiplier = 3
 				"row1":
 					if winning_number % 3 == 0: won = true; payout_multiplier = 3
 				"row2":
