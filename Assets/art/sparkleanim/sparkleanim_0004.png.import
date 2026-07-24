@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbex76belmnxl"
-path="res://.godot/imported/lever_0016.png-f77819318c38405df8485dc86d08897c.ctex"
+uid="uid://c7qngq12mlrm5"
+path="res://.godot/imported/sparkleanim_0004.png-db80f6f1ad22ccf2e7f11ba8e8d9c19f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/art/leveranim/lever_0016.png"
-dest_files=["res://.godot/imported/lever_0016.png-f77819318c38405df8485dc86d08897c.ctex"]
+source_file="res://Assets/art/sparkleanim/sparkleanim_0004.png"
+dest_files=["res://.godot/imported/sparkleanim_0004.png-db80f6f1ad22ccf2e7f11ba8e8d9c19f.ctex"]
 
 [params]
 
