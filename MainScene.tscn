@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://spw3cuhr515e" path="res://Scripts/MainScene.gd" id="1_uxrcv"]
 [ext_resource type="Texture2D" uid="uid://bs6bonvhp1tn1" path="res://Assets/art/carpet.png" id="2_8xkvn"]
 [ext_resource type="Script" uid="uid://c74l6cmgccyo8" path="res://Scripts/DraggableChip.gd" id="2_rf2cd"]
+[ext_resource type="Texture2D" uid="uid://dlwph1ucsdxje" path="res://Assets/art/chippanel.png" id="3_k2m8n"]
 [ext_resource type="Texture2D" uid="uid://dx7y44hqxonft" path="res://Assets/PlaceHolders/rouletteboard.png" id="3_uxrcv"]
 [ext_resource type="Script" uid="uid://b4xp81d6dywgf" path="res://Scripts/BettingDropZone.gd" id="4_5crlr"]
 [ext_resource type="Script" uid="uid://nr0io8g5x058" path="res://Scripts/TableLimitsBoard.gd" id="5_a814b"]
@@ -36,6 +37,7 @@
 [ext_resource type="Script" uid="uid://c8na0uqudkt2r" path="res://Scripts/Timer.gd" id="30_ro037"]
 [ext_resource type="Texture2D" uid="uid://bmxc0peu2cfrk" path="res://Assets/art/ball.png" id="32_lppff"]
 [ext_resource type="Script" uid="uid://cjar8g23mh4ts" path="res://Scripts/RouletteWheel.gd" id="33_5o6vq"]
+[ext_resource type="Texture2D" uid="uid://bw8gmmnkxsewk" path="res://Assets/art/itemsui.png" id="36_viv21"]
 [ext_resource type="Texture2D" uid="uid://bj74flqba7qmg" path="res://Assets/art/pausescreen.png" id="37_506kc"]
 [ext_resource type="Texture2D" uid="uid://1d5xapy5cf4t" path="res://Assets/art/continuebutton.png" id="38_igrck"]
 [ext_resource type="Texture2D" uid="uid://c5koxopajyr0" path="res://Assets/art/continuehover.png" id="39_pj2c0"]
@@ -44,6 +46,11 @@
 [ext_resource type="Texture2D" uid="uid://bjodv30l46uf8" path="res://Assets/art/quit.png" id="42_pj2c0"]
 [ext_resource type="Texture2D" uid="uid://c0ecgna7xebd0" path="res://Assets/art/quithover.png" id="43_g1j4k"]
 [ext_resource type="Script" uid="uid://di5kgn6g78mx" path="res://Scripts/PauseMenu.gd" id="44_pmenu"]
+[ext_resource type="Texture2D" uid="uid://04yo5aot7ycv" path="res://Assets/art/gameover.png" id="45_4f1ln"]
+[ext_resource type="Script" uid="uid://c8nmrmtuv44lp" path="res://Scripts/GameOver.gd" id="46_gameover"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d30vs"]
+texture = ExtResource("3_k2m8n")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dh88x"]
 animations = [{
@@ -132,29 +139,33 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ChipTray" type="HBoxContainer" parent="CanvasLayer/UI_Layer" unique_id=2076036332]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI_Layer" unique_id=463321617]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -242.25
-offset_top = -100.0
-offset_right = 242.25
+offset_left = -414.0
+offset_top = -116.0
+offset_right = 206.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_d30vs")
+
+[node name="ChipTray" type="HBoxContainer" parent="CanvasLayer/UI_Layer/PanelContainer" unique_id=2076036332]
+layout_mode = 2
 mouse_filter = 2
 
-[node name="Chip1000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=575246137]
+[node name="Chip1000" type="TextureRect" parent="CanvasLayer/UI_Layer/PanelContainer/ChipTray" unique_id=575246137]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("7_1kchip")
 expand_mode = 1
 script = ExtResource("2_rf2cd")
 
-[node name="Chip5000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1275956127]
+[node name="Chip5000" type="TextureRect" parent="CanvasLayer/UI_Layer/PanelContainer/ChipTray" unique_id=1275956127]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("8_5kchip")
@@ -162,7 +173,7 @@ expand_mode = 1
 script = ExtResource("2_rf2cd")
 chip_value = 5000
 
-[node name="Chip10000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1863290301]
+[node name="Chip10000" type="TextureRect" parent="CanvasLayer/UI_Layer/PanelContainer/ChipTray" unique_id=1863290301]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("6_nlw8m")
@@ -170,7 +181,7 @@ expand_mode = 1
 script = ExtResource("2_rf2cd")
 chip_value = 10000
 
-[node name="Chip25000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=42250852]
+[node name="Chip25000" type="TextureRect" parent="CanvasLayer/UI_Layer/PanelContainer/ChipTray" unique_id=42250852]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("9_25kchip")
@@ -179,7 +190,7 @@ stretch_mode = 5
 script = ExtResource("2_rf2cd")
 chip_value = 25000
 
-[node name="Chip50000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=2011454130]
+[node name="Chip50000" type="TextureRect" parent="CanvasLayer/UI_Layer/PanelContainer/ChipTray" unique_id=2011454130]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("8_r1x6n")
@@ -188,7 +199,7 @@ stretch_mode = 5
 script = ExtResource("2_rf2cd")
 chip_value = 50000
 
-[node name="Chip100000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1966106776]
+[node name="Chip100000" type="TextureRect" parent="CanvasLayer/UI_Layer/PanelContainer/ChipTray" unique_id=1966106776]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("9_kvyqs")
@@ -197,14 +208,14 @@ stretch_mode = 5
 script = ExtResource("2_rf2cd")
 chip_value = 100000
 
-[node name="SpinLever" type="AnimatedSprite2D" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1371182476]
+[node name="SpinLever" type="AnimatedSprite2D" parent="CanvasLayer/UI_Layer/PanelContainer/ChipTray" unique_id=1371182476]
 z_index = 1
 position = Vector2(661.25, 46)
 scale = Vector2(0.15, 0.15)
 sprite_frames = SubResource("SpriteFrames_dh88x")
 animation = &"idle"
 
-[node name="Control" type="Control" parent="CanvasLayer/UI_Layer/ChipTray/SpinLever" unique_id=1826704288]
+[node name="Control" type="Control" parent="CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever" unique_id=1826704288]
 layout_mode = 3
 anchor_left = 0.18400002
 anchor_top = 0.804
@@ -982,6 +993,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="Control" type="Control" parent="CanvasLayer/UI_Layer" unique_id=1801718751]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI_Layer/Control" unique_id=1177560614]
+layout_mode = 0
+offset_left = 992.00006
+offset_top = 272.00003
+offset_right = 1747.0
+offset_bottom = 1463.0
+scale = Vector2(0.365, 0.365)
+texture = ExtResource("36_viv21")
+
 [node name="WheelPivot" type="Node2D" parent="CanvasLayer" unique_id=2052149676]
 position = Vector2(758, 428)
 script = ExtResource("33_5o6vq")
@@ -1059,7 +1084,57 @@ grow_vertical = 0
 texture_normal = ExtResource("42_pj2c0")
 texture_hover = ExtResource("43_g1j4k")
 
-[connection signal="gui_input" from="CanvasLayer/UI_Layer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
+[node name="GameOverLayer" type="CanvasLayer" parent="." unique_id=1644685024]
+
+[node name="GameOver" type="Control" parent="GameOverLayer" unique_id=537868830]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("46_gameover")
+
+[node name="Background" type="TextureRect" parent="GameOverLayer/GameOver" unique_id=2123082007]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("45_4f1ln")
+
+[node name="RetryButton" type="TextureButton" parent="GameOverLayer/GameOver" unique_id=2112774025]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_top = -266.0
+offset_right = 396.0
+offset_bottom = -192.0
+grow_vertical = 0
+texture_normal = ExtResource("40_g1j4k")
+texture_hover = ExtResource("41_4f1ln")
+
+[node name="QuitButton" type="TextureButton" parent="GameOverLayer/GameOver" unique_id=1723831879]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -396.0
+offset_top = -266.0
+offset_right = -72.0
+offset_bottom = -192.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("42_pj2c0")
+texture_hover = ExtResource("43_g1j4k")
+
+[connection signal="gui_input" from="CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/ContinueButton" to="PauseMenuLayer/PauseMenu" method="_on_continue_pressed"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/RetryButton" to="PauseMenuLayer/PauseMenu" method="_on_retry_pressed"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/QuitButton" to="PauseMenuLayer/PauseMenu" method="_on_quit_pressed"]
+[connection signal="pressed" from="GameOverLayer/GameOver/RetryButton" to="GameOverLayer/GameOver" method="_on_retry_pressed"]
+[connection signal="pressed" from="GameOverLayer/GameOver/QuitButton" to="GameOverLayer/GameOver" method="_on_quit_pressed"]
