@@ -4,6 +4,9 @@ extends Node2D
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 @onready var game_over: Control = $GameOverLayer/GameOver
 
+@onready var error_banner: TextureRect = $ErrorBannerLayer/ErrorBanner
+@onready var error_label: Label = $ErrorBannerLayer/ErrorLabel
+
 @onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip1000
 @onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip5000
 @onready var chip_25000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip25000
@@ -19,6 +22,7 @@ extends Node2D
 
 var is_spinning: bool = false
 var _game_over_triggered: bool = false
+var _error_banner_showing: bool = false
 
 const LUCK_DIAL_DURATION: float = 0.8
 var _display_luck: float = 0.0
@@ -44,6 +48,34 @@ func _ready() -> void:
 
 	_display_luck = float(GameState.luck_meter)
 	_luck_target = GameState.luck_meter
+
+	GameState.show_error.connect(show_error_banner)
+
+	# Park the error banner above the top of the screen
+	_set_banner_y(-error_banner.get_texture().get_size().y)
+
+func _set_banner_y(y: float) -> void:
+	var banner_tex_size: Vector2 = error_banner.get_texture().get_size()
+	var viewport_width: float = get_viewport().get_visible_rect().size.x
+	var x: float = (viewport_width - banner_tex_size.x) / 2.0
+	error_banner.position = Vector2(x, y)
+	error_label.position = Vector2(x + 120.0, y + 15.0)
+
+func show_error_banner(message: String) -> void:
+	if _error_banner_showing:
+		return
+	_error_banner_showing = true
+	error_label.text = message
+
+	var parked_y: float = - error_banner.get_texture().get_size().y
+	var shown_y: float = 20.0
+	_set_banner_y(parked_y)
+
+	var tween: Tween = create_tween()
+	tween.tween_method(_set_banner_y, parked_y, shown_y, 0.35).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_interval(2.0)
+	tween.tween_method(_set_banner_y, shown_y, parked_y, 0.35).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_callback(func() -> void: _error_banner_showing = false)
 
 func _on_chip_gui_input(event: InputEvent, amount: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -84,14 +116,14 @@ func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if GameState.active_bets.is_empty():
-			print("Place a bet first!")
+			show_error_banner("Place a bet first!")
 			return
 
 		var total_bet: int = 0
 		for amount in GameState.active_bets.values():
 			total_bet += amount
 		if total_bet < GameState.table_min_bet:
-			print("Total bets ($", total_bet, ") are below the table minimum of $", GameState.table_min_bet, "!")
+			show_error_banner("Bet is below table minimum of $" + GameState.format_money(GameState.table_min_bet) + "!")
 			return
 
 		is_spinning = true
@@ -286,14 +318,14 @@ func _on_control_gui_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if GameState.active_bets.is_empty():
-			print("Place a bet first!")
+			show_error_banner("Place a bet first!")
 			return
 
 		var total_bet: int = 0
 		for amount in GameState.active_bets.values():
 			total_bet += amount
 		if total_bet < GameState.table_min_bet:
-			print("Total bets ($", total_bet, ") are below the table minimum of $", GameState.table_min_bet, "!")
+			show_error_banner("Bet is below table minimum of $" + GameState.format_money(GameState.table_min_bet) + "!")
 			return
 
 		is_spinning = true

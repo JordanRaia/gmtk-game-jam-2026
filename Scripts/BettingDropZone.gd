@@ -9,7 +9,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	var chip_value = data["amount"]
 
 	if GameState.balance < chip_value:
-		print("Not enough balance to place this bet!")
+		GameState.show_error.emit("Not enough balance!")
 		return
 
 	# Enforce total table maximum across all bet spots
@@ -17,7 +17,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	for amount in GameState.active_bets.values():
 		total_all_bets += amount
 	if total_all_bets + chip_value > GameState.table_max_bet:
-		print("Total bets would exceed table maximum of $", GameState.table_max_bet, "!")
+		GameState.show_error.emit("Bet exceeds table maximum of $" + GameState.format_money(GameState.table_max_bet) + "!")
 		return
 
 	# Deduct from balance

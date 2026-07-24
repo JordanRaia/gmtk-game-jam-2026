@@ -48,6 +48,7 @@
 [ext_resource type="Script" uid="uid://di5kgn6g78mx" path="res://Scripts/PauseMenu.gd" id="44_pmenu"]
 [ext_resource type="Texture2D" uid="uid://04yo5aot7ycv" path="res://Assets/art/gameover.png" id="45_4f1ln"]
 [ext_resource type="Script" uid="uid://c8nmrmtuv44lp" path="res://Scripts/GameOver.gd" id="46_gameover"]
+[ext_resource type="Texture2D" uid="uid://d2kyp37j7ogk3" path="res://Assets/art/error.png" id="49_gdhla"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d30vs"]
 texture = ExtResource("3_k2m8n")
@@ -1131,6 +1132,30 @@ grow_horizontal = 0
 grow_vertical = 0
 texture_normal = ExtResource("42_pj2c0")
 texture_hover = ExtResource("43_g1j4k")
+
+[node name="ErrorBannerLayer" type="CanvasLayer" parent="." unique_id=515909458]
+layer = 10
+
+[node name="ErrorBanner" type="TextureRect" parent="ErrorBannerLayer" unique_id=586253016]
+offset_top = -128.0
+offset_right = 1154.0
+offset_bottom = 116.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("49_gdhla")
+stretch_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ErrorLabel" type="Label" parent="ErrorBannerLayer" unique_id=1429500991]
+custom_minimum_size = Vector2(400, 0)
+offset_left = 101.0
+offset_top = -114.0
+offset_right = 537.0
+offset_bottom = -33.0
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/_edit_use_anchors_ = true
 
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/ContinueButton" to="PauseMenuLayer/PauseMenu" method="_on_continue_pressed"]

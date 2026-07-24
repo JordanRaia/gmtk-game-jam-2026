@@ -1,5 +1,18 @@
 extends Node
 
+signal show_error(message: String)
+
+static func format_money(n: int) -> String:
+	var s: String = str(n)
+	var result: String = ""
+	var count: int = 0
+	for i: int in range(s.length() - 1, -1, -1):
+		if count > 0 and count % 3 == 0:
+			result = "," + result
+		result = s[i] + result
+		count += 1
+	return result
+
 var balance: int = 1000000
 var starting_balance: int = 1000000 # Reference for luck gain/drain calculations
 var time_remaining: float = 180.0 # 3 minutes countdown
