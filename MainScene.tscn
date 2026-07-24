@@ -38,7 +38,6 @@
 [ext_resource type="Texture2D" uid="uid://bmxc0peu2cfrk" path="res://Assets/art/ball.png" id="32_lppff"]
 [ext_resource type="Script" uid="uid://cjar8g23mh4ts" path="res://Scripts/RouletteWheel.gd" id="33_5o6vq"]
 [ext_resource type="Texture2D" uid="uid://bw8gmmnkxsewk" path="res://Assets/art/itemsui.png" id="36_viv21"]
-[ext_resource type="Texture2D" uid="uid://bj74flqba7qmg" path="res://Assets/art/pausescreen.png" id="37_506kc"]
 [ext_resource type="Texture2D" uid="uid://1d5xapy5cf4t" path="res://Assets/art/continuebutton.png" id="38_igrck"]
 [ext_resource type="Texture2D" uid="uid://c5koxopajyr0" path="res://Assets/art/continuehover.png" id="39_pj2c0"]
 [ext_resource type="Texture2D" uid="uid://bhlqh0q2lqlff" path="res://Assets/art/retry.png" id="40_g1j4k"]
@@ -49,6 +48,21 @@
 [ext_resource type="Texture2D" uid="uid://04yo5aot7ycv" path="res://Assets/art/gameover.png" id="45_4f1ln"]
 [ext_resource type="Script" uid="uid://c8nmrmtuv44lp" path="res://Scripts/GameOver.gd" id="46_gameover"]
 [ext_resource type="Texture2D" uid="uid://d2kyp37j7ogk3" path="res://Assets/art/error.png" id="49_gdhla"]
+[ext_resource type="Texture2D" uid="uid://cvopmyljd1n3e" path="res://Assets/art/pausescreen/pausescreen_0000.png" id="ps_0"]
+[ext_resource type="Texture2D" uid="uid://cc2xugvbm3ae3" path="res://Assets/art/pausescreen/pausescreen_0001.png" id="ps_1"]
+[ext_resource type="Texture2D" uid="uid://ddji1h6oklaq6" path="res://Assets/art/pausescreen/pausescreen_0002.png" id="ps_2"]
+[ext_resource type="Texture2D" uid="uid://bsbaormj0jdd7" path="res://Assets/art/pausescreen/pausescreen_0003.png" id="ps_3"]
+[ext_resource type="Texture2D" uid="uid://di41pt0n8w3yr" path="res://Assets/art/pausescreen/pausescreen_0004.png" id="ps_4"]
+[ext_resource type="Texture2D" uid="uid://cp85rs7an1rh4" path="res://Assets/art/pausescreen/pausescreen_0005.png" id="ps_5"]
+[ext_resource type="Texture2D" uid="uid://b0xbokqisujgs" path="res://Assets/art/pausescreen/pausescreen_0006.png" id="ps_6"]
+[ext_resource type="Texture2D" uid="uid://83cki8k6xd6m" path="res://Assets/art/pausescreen/pausescreen_0007.png" id="ps_7"]
+[ext_resource type="Texture2D" uid="uid://bs13dywo6tyew" path="res://Assets/art/pausescreen/pausescreen_0008.png" id="ps_8"]
+[ext_resource type="Texture2D" uid="uid://r1i8alxw8f2l" path="res://Assets/art/pausescreen/pausescreen_0009.png" id="ps_9"]
+[ext_resource type="Texture2D" uid="uid://hfywpnprhvb7" path="res://Assets/art/pausescreen/pausescreen_0010.png" id="ps_10"]
+[ext_resource type="Texture2D" uid="uid://chyf2riune32r" path="res://Assets/art/pausescreen/pausescreen_0011.png" id="ps_11"]
+[ext_resource type="Texture2D" uid="uid://dicj7sv7q3mak" path="res://Assets/art/pausescreen/pausescreen_0012.png" id="ps_12"]
+[ext_resource type="Texture2D" uid="uid://bw7ol1l4cd5m1" path="res://Assets/art/pausescreen/pausescreen_0013.png" id="ps_13"]
+[ext_resource type="Texture2D" uid="uid://c13fsc8b5cxmq" path="res://Assets/art/pausescreen/pausescreen_0014.png" id="ps_14"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d30vs"]
 texture = ExtResource("3_k2m8n")
@@ -117,6 +131,59 @@ animations = [{
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i1thg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a28bb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ps"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("ps_0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("ps_14")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 12.0
+}]
 
 [node name="Main Scene" type="Node2D" unique_id=1180250988]
 script = ExtResource("1_uxrcv")
@@ -1030,15 +1097,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("44_pmenu")
 
-[node name="Background" type="TextureRect" parent="PauseMenuLayer/PauseMenu" unique_id=897769814]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("37_506kc")
-expand_mode = 1
+[node name="Background" type="AnimatedSprite2D" parent="PauseMenuLayer/PauseMenu" unique_id=897769814]
+position = Vector2(640, 360)
+sprite_frames = SubResource("SpriteFrames_ps")
+autoplay = "default"
+frame_progress = 0.5793348
 
 [node name="ContinueButton" type="TextureButton" parent="PauseMenuLayer/PauseMenu" unique_id=1507847760]
 layout_mode = 1
