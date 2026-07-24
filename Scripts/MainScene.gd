@@ -2,6 +2,7 @@ extends Node2D
 
 
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
+@onready var game_over: Control = $GameOverLayer/GameOver
 
 @onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip1000
 @onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip5000
@@ -17,6 +18,7 @@ extends Node2D
 @onready var wheel_pivot: Node2D = $CanvasLayer/WheelPivot
 
 var is_spinning: bool = false
+var _game_over_triggered: bool = false
 
 const LUCK_DIAL_DURATION: float = 0.8
 var _display_luck: float = 0.0
@@ -54,6 +56,9 @@ func _on_chip_selected(amount: int) -> void:
 func _process(delta: float) -> void:
 	if GameState.time_remaining > 0:
 		GameState.time_remaining -= delta
+	elif not _game_over_triggered:
+		_game_over_triggered = true
+		game_over.show_game_over()
 	
 	
 	# --- Update Luck Dial Rotation (animated) ---

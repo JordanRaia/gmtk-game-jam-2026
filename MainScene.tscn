@@ -44,6 +44,8 @@
 [ext_resource type="Texture2D" uid="uid://bjodv30l46uf8" path="res://Assets/art/quit.png" id="42_pj2c0"]
 [ext_resource type="Texture2D" uid="uid://c0ecgna7xebd0" path="res://Assets/art/quithover.png" id="43_g1j4k"]
 [ext_resource type="Script" uid="uid://di5kgn6g78mx" path="res://Scripts/PauseMenu.gd" id="44_pmenu"]
+[ext_resource type="Texture2D" uid="uid://04yo5aot7ycv" path="res://Assets/art/gameover.png" id="45_4f1ln"]
+[ext_resource type="Script" uid="uid://c8nmrmtuv44lp" path="res://Scripts/GameOver.gd" id="46_gameover"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dh88x"]
 animations = [{
@@ -1059,7 +1061,57 @@ grow_vertical = 0
 texture_normal = ExtResource("42_pj2c0")
 texture_hover = ExtResource("43_g1j4k")
 
+[node name="GameOverLayer" type="CanvasLayer" parent="." unique_id=1644685024]
+
+[node name="GameOver" type="Control" parent="GameOverLayer" unique_id=537868830]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("46_gameover")
+
+[node name="Background" type="TextureRect" parent="GameOverLayer/GameOver" unique_id=2123082007]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("45_4f1ln")
+
+[node name="RetryButton" type="TextureButton" parent="GameOverLayer/GameOver" unique_id=2112774025]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_top = -266.0
+offset_right = 396.0
+offset_bottom = -192.0
+grow_vertical = 0
+texture_normal = ExtResource("40_g1j4k")
+texture_hover = ExtResource("41_4f1ln")
+
+[node name="QuitButton" type="TextureButton" parent="GameOverLayer/GameOver" unique_id=1723831879]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -396.0
+offset_top = -266.0
+offset_right = -72.0
+offset_bottom = -192.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("42_pj2c0")
+texture_hover = ExtResource("43_g1j4k")
+
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/ContinueButton" to="PauseMenuLayer/PauseMenu" method="_on_continue_pressed"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/RetryButton" to="PauseMenuLayer/PauseMenu" method="_on_retry_pressed"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/QuitButton" to="PauseMenuLayer/PauseMenu" method="_on_quit_pressed"]
+[connection signal="pressed" from="GameOverLayer/GameOver/RetryButton" to="GameOverLayer/GameOver" method="_on_retry_pressed"]
+[connection signal="pressed" from="GameOverLayer/GameOver/QuitButton" to="GameOverLayer/GameOver" method="_on_quit_pressed"]
