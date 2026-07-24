@@ -64,6 +64,23 @@
 [ext_resource type="Texture2D" uid="uid://c255hmsms57mm" path="res://Assets/art/mikusad/mikusad_0005.png" id="92_5mcml"]
 [ext_resource type="Texture2D" uid="uid://b4qchf5t8cmhp" path="res://Assets/art/mikusad/mikusad_0006.png" id="93_e3wsx"]
 [ext_resource type="Texture2D" uid="uid://dcreco0vql7cc" path="res://Assets/art/mikusad/mikusad_0007.png" id="94_4e253"]
+[ext_resource type="Texture2D" uid="uid://b8cd7vc8ssltt" path="res://Assets/art/winscreen/win_0000.png" id="96_3bhbc"]
+[ext_resource type="Script" uid="uid://cim33rqmevxeh" path="res://Scripts/WinScreen.gd" id="96_fto4x"]
+[ext_resource type="Texture2D" uid="uid://tvnf3vh84f1v" path="res://Assets/art/winscreen/win_0001.png" id="97_fnp2p"]
+[ext_resource type="Texture2D" uid="uid://c25xi7inxl8s2" path="res://Assets/art/winscreen/win_0002.png" id="98_wijga"]
+[ext_resource type="Texture2D" uid="uid://bty7pptsxg6ex" path="res://Assets/art/winscreen/win_0003.png" id="99_fto4x"]
+[ext_resource type="Texture2D" uid="uid://c2hhlnlwhvcjd" path="res://Assets/art/winscreen/win_0004.png" id="100_jn25t"]
+[ext_resource type="Texture2D" uid="uid://cx5hdibhfrnep" path="res://Assets/art/winscreen/win_0005.png" id="101_b3qp7"]
+[ext_resource type="Texture2D" uid="uid://cfuanolhvlq3p" path="res://Assets/art/winscreen/win_0006.png" id="102_hf5en"]
+[ext_resource type="Texture2D" uid="uid://dj7fktfika48u" path="res://Assets/art/winscreen/win_0007.png" id="103_p3djs"]
+[ext_resource type="Texture2D" uid="uid://bbo8u7eayuked" path="res://Assets/art/winscreen/win_0008.png" id="104_u63vv"]
+[ext_resource type="Texture2D" uid="uid://bg24tjb7ewcrf" path="res://Assets/art/winscreen/win_0009.png" id="105_peim6"]
+[ext_resource type="Texture2D" uid="uid://ck31phyxonbw1" path="res://Assets/art/winscreen/win_0010.png" id="106_v7p2e"]
+[ext_resource type="Texture2D" uid="uid://bo26fvepw1ati" path="res://Assets/art/winscreen/win_0011.png" id="107_kjl4i"]
+[ext_resource type="Texture2D" uid="uid://dcmo1h2av2v38" path="res://Assets/art/winscreen/win_0012.png" id="108_sn4nu"]
+[ext_resource type="Texture2D" uid="uid://bmhtnwaq8a686" path="res://Assets/art/winscreen/win_0013.png" id="109_70s5d"]
+[ext_resource type="Texture2D" uid="uid://cy3r21mhscpeg" path="res://Assets/art/nextbutton.png" id="110_wijga"]
+[ext_resource type="Texture2D" uid="uid://dsl7230xtreb8" path="res://Assets/art/nextbuttonhover.png" id="111_fto4x"]
 [ext_resource type="Texture2D" uid="uid://djacglfaa5wh6" path="res://Assets/art/game over screen/gameover_0000.png" id="go_0"]
 [ext_resource type="Texture2D" uid="uid://sfi100s2ys7c" path="res://Assets/art/game over screen/gameover_0001.png" id="go_1"]
 [ext_resource type="Texture2D" uid="uid://bsyy6ufb7gk4h" path="res://Assets/art/game over screen/gameover_0002.png" id="go_2"]
@@ -331,6 +348,56 @@ animations = [{
 }],
 "loop": 1,
 "name": &"sad",
+"speed": 12.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jsacn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("96_3bhbc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("97_fnp2p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("98_wijga")
+}, {
+"duration": 1.0,
+"texture": ExtResource("99_fto4x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("100_jn25t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("101_b3qp7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("102_hf5en")
+}, {
+"duration": 1.0,
+"texture": ExtResource("103_p3djs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("104_u63vv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("105_peim6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("106_v7p2e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("107_kjl4i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("108_sn4nu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("109_70s5d")
+}],
+"loop": 1,
+"name": &"show",
 "speed": 12.0
 }]
 
@@ -1391,6 +1458,40 @@ sprite_frames = SubResource("SpriteFrames_d30vs")
 animation = &"sad"
 frame = 5
 frame_progress = 0.17666
+
+[node name="WinScreenLayer" type="CanvasLayer" parent="." unique_id=1365414299]
+
+[node name="WinScreen" type="Control" parent="WinScreenLayer" unique_id=622199208]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("96_fto4x")
+
+[node name="WinAnim" type="AnimatedSprite2D" parent="WinScreenLayer/WinScreen" unique_id=341156663]
+position = Vector2(640, 360)
+sprite_frames = SubResource("SpriteFrames_jsacn")
+animation = &"show"
+frame_progress = 0.29703963
+
+[node name="NextButton" type="TextureButton" parent="WinScreenLayer/WinScreen" unique_id=719483183]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -172.5
+offset_top = -127.0
+offset_right = 172.5
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("110_wijga")
+texture_hover = ExtResource("111_fto4x")
 
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/ContinueButton" to="PauseMenuLayer/PauseMenu" method="_on_continue_pressed"]

@@ -3,10 +3,16 @@ extends Panel
 @export var bet_id: String = ""
 
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
+	if get_tree().get_first_node_in_group("main_scene").is_spinning:
+		return false
 	return data is Dictionary and data.has("amount")
 
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	var chip_value = data["amount"]
+
+	if get_tree().get_first_node_in_group("main_scene").is_spinning:
+		GameState.show_error.emit("Cannot bet while the wheel is spinning!")
+		return
 
 	if GameState.balance < chip_value:
 		GameState.show_error.emit("Not enough balance!")

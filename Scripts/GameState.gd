@@ -13,13 +13,27 @@ static func format_money(n: int) -> String:
 		count += 1
 	return result
 
-var balance: int = 100000
-var starting_balance: int = 1000000 # Reference for luck gain/drain calculations
-var time_remaining: float = 180.0 # 3 minutes countdown
+var current_stage: int = 1
+
+# Per-stage config: [balance, time_sec, table_min, table_max, chips_available, starting_luck]
+const STAGE_CONFIG: Array = [
+	[50000, 180, 500, 10000, [1000, 5000, 10000], 0], # Stage 1 — easymode
+	[150000, 150, 1000, 50000, [1000, 5000, 10000, 25000], 30], # Stage 2 — mid chips
+	[300000, 120, 5000, 100000, [5000, 10000, 25000, 50000], 55], # Stage 3 — big bets
+	[600000, 90, 25000, 250000, [25000, 50000, 100000], 75], # Stage 4 — max pressure
+]
+
+func get_stage_config() -> Array:
+	var idx: int = clamp(current_stage - 1, 0, STAGE_CONFIG.size() - 1)
+	return STAGE_CONFIG[idx]
+
+var balance: int = 50000
+var starting_balance: int = 50000
+var time_remaining: float = 180.0
 var luck_meter: int = 50
 var current_selected_chip: int = 1000
-var active_bets: Dictionary = {} # Example: {"17_black": 50000}
+var active_bets: Dictionary = {}
 
 # Set by TableLimitsBoard — enforced when betting and spinning
-var table_min_bet: int = 1000 # Minimum total wager required before spinning
-var table_max_bet: int = 250000 # Maximum allowed wager per individual bet spot
+var table_min_bet: int = 500
+var table_max_bet: int = 10000

@@ -8,10 +8,10 @@ func show_game_over() -> void:
 
 func _on_retry_pressed() -> void:
 	get_tree().paused = false
-	GameState.balance = GameState.starting_balance
-	GameState.time_remaining = 180.0
-	GameState.luck_meter = 50
-	GameState.current_selected_chip = 1000
+	var cfg: Array = GameState.get_stage_config()
+	GameState.balance = cfg[0]
+	GameState.starting_balance = cfg[0]
+	GameState.time_remaining = float(cfg[1])
 	GameState.active_bets = {}
 	get_tree().reload_current_scene()
 

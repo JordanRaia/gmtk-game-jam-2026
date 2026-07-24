@@ -3,6 +3,7 @@ extends Node2D
 
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 @onready var game_over: Control = $GameOverLayer/GameOver
+@onready var win_screen: Control = $WinScreenLayer/WinScreen
 
 @onready var error_banner: TextureRect = $ErrorBannerLayer/ErrorBanner
 @onready var error_label: Label = $ErrorBannerLayer/ErrorLabel
@@ -12,6 +13,9 @@ extends Node2D
 @onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip1000
 @onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip5000
 @onready var chip_25000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip25000
+@onready var chip_10000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip10000
+@onready var chip_50000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip50000
+@onready var chip_100000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip100000
 
 # References to your lever nodes
 @onready var spin_lever: AnimatedSprite2D = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever
@@ -28,6 +32,7 @@ var is_spinning: bool = false
 var _game_over_triggered: bool = false
 var _error_banner_showing: bool = false
 var _miku_showing: bool = false
+var _miku_tween: Tween = null
 
 const LUCK_DIAL_DURATION: float = 0.8
 var _display_luck: float = 0.0
@@ -36,11 +41,18 @@ var _luck_target: int = 0
 var _luck_elapsed: float = 0.0
 
 var _pending_winning_number: int = 0
+var _luck_decay_accum: float = 0.0
 
 func _ready() -> void:
+	add_to_group("main_scene")
+	_apply_stage_config()
+
 	chip_1000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 1000))
 	chip_5000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 5000))
+	chip_10000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 10000))
 	chip_25000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 25000))
+	chip_50000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 50000))
+	chip_100000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 100000))
 	
 	# Connect the animation finished signal to handle post-pull logic
 	spin_lever.animation_finished.connect(_on_lever_animation_finished)
@@ -62,6 +74,22 @@ func _ready() -> void:
 	_set_banner_y(-error_banner.get_texture().get_size().y)
 
 	_check_table_minimum()
+
+
+func _apply_stage_config() -> void:
+	var cfg: Array = GameState.get_stage_config()
+	var chips_available: Array = cfg[4]
+
+	table_limits_board.min_value = cfg[2]
+	table_limits_board.max_value = cfg[3]
+	GameState.luck_meter = cfg[5]
+
+	chip_1000.visible = true
+	chip_5000.visible = true
+	chip_10000.visible = true
+	chip_25000.visible = true
+	chip_50000.visible = true
+	chip_100000.visible = true
 
 func _set_banner_y(y: float) -> void:
 	var banner_tex_size: Vector2 = error_banner.get_texture().get_size()
@@ -86,6 +114,16 @@ func show_error_banner(message: String) -> void:
 	tween.tween_method(_set_banner_y, shown_y, parked_y, 0.35).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_callback(func() -> void: _error_banner_showing = false)
 
+func _dismiss_miku() -> void:
+	if _miku_tween != null:
+		_miku_tween.kill()
+		_miku_tween = null
+	var frame_tex: Texture2D = miku_sprite.sprite_frames.get_frame_texture("happy", 0)
+	var scaled_half_width: float = (frame_tex.get_width() * miku_sprite.scale.x) / 2.0
+	miku_sprite.position.x = -(scaled_half_width + 20.0)
+	miku_sprite.stop()
+	_miku_showing = false
+
 func show_miku(happy: bool) -> void:
 	if _miku_showing:
 		return
@@ -103,13 +141,13 @@ func show_miku(happy: bool) -> void:
 	var hold_time: float = float(miku_sprite.sprite_frames.get_frame_count(anim)) \
 		/ miku_sprite.sprite_frames.get_animation_speed(anim)
 
-	var tween: Tween = create_tween()
-	tween.tween_property(miku_sprite, "position:x", shown_x, 0.75) \
+	_miku_tween = create_tween()
+	_miku_tween.tween_property(miku_sprite, "position:x", shown_x, 0.75) \
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_interval(hold_time)
-	tween.tween_property(miku_sprite, "position:x", parked_x, 0.75) \
+	_miku_tween.tween_interval(hold_time)
+	_miku_tween.tween_property(miku_sprite, "position:x", parked_x, 0.75) \
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_callback(func() -> void: _miku_showing = false)
+	_miku_tween.tween_callback(func() -> void: _miku_showing = false)
 
 func _on_chip_gui_input(event: InputEvent, amount: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -124,7 +162,15 @@ func _process(delta: float) -> void:
 		GameState.time_remaining -= delta
 	elif not _game_over_triggered:
 		_game_over_triggered = true
+		_dismiss_miku()
 		game_over.show_game_over()
+
+	# Passive luck decay — 0.5 points per second, accumulated to avoid float truncation
+	_luck_decay_accum += 1.5 * delta
+	if _luck_decay_accum >= 1.0:
+		var decay: int = int(_luck_decay_accum)
+		_luck_decay_accum -= float(decay)
+		GameState.luck_meter = max(0, GameState.luck_meter - decay)
 	
 	
 	# --- Update Luck Dial Rotation (animated) ---
@@ -305,11 +351,17 @@ func _apply_spin_results(winning_number: int) -> void:
 
 	var net_loss: int = total_bet - total_winnings
 	if total_winnings > 0:
-		var luck_drain: int = clamp(int(float(total_winnings) / float(GameState.balance) * 100.0), 1, 100)
-		GameState.luck_meter = max(0, GameState.luck_meter - luck_drain)
-		print("Luck drained by ", luck_drain, "% (payout: $", total_winnings, " vs pre-win balance: $", GameState.balance, ")")
+		var post_win_balance: int = GameState.balance + total_winnings
+		var net_winnings: int = max(0, total_winnings - total_bet)
+		if net_winnings > 0:
+			var luck_multiplier: float = 1.0 + (float(GameState.luck_meter) / 100.0)
+			var luck_drain: int = clamp(int(float(net_winnings) / float(post_win_balance) * 150.0 * luck_multiplier), 5, 100)
+			GameState.luck_meter = max(0, GameState.luck_meter - luck_drain)
+			print("Luck drained by ", luck_drain, "% (net gain: $", net_winnings, ", luck multiplier: ", luck_multiplier, ")")
+		else:
+			print("No net gain — no luck drain.")
 
-		GameState.balance = min(GameState.balance + total_winnings, 9999999)
+		GameState.balance = min(post_win_balance, 9999999)
 		print("Total cash forced back into balance: $", total_winnings)
 	else:
 		print("Excellent! You successfully burned all the bets this round.")
@@ -328,6 +380,10 @@ func _apply_spin_results(winning_number: int) -> void:
 
 	for chip in get_tree().get_nodes_in_group("placed_chips"):
 		chip.queue_free()
+
+	if GameState.balance <= 0:
+		win_screen.show_win_screen()
+		return
 
 	_check_table_minimum()
 
