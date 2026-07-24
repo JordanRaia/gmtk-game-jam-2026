@@ -38,6 +38,7 @@
 [ext_resource type="Texture2D" uid="uid://bmxc0peu2cfrk" path="res://Assets/art/ball.png" id="32_lppff"]
 [ext_resource type="Script" uid="uid://cjar8g23mh4ts" path="res://Scripts/RouletteWheel.gd" id="33_5o6vq"]
 [ext_resource type="Texture2D" uid="uid://bw8gmmnkxsewk" path="res://Assets/art/itemsui.png" id="36_viv21"]
+[ext_resource type="Texture2D" uid="uid://cgcgoply228ue" path="res://Assets/art/resetchips.png" id="37_4tklr"]
 [ext_resource type="Texture2D" uid="uid://1d5xapy5cf4t" path="res://Assets/art/continuebutton.png" id="38_igrck"]
 [ext_resource type="Texture2D" uid="uid://c5koxopajyr0" path="res://Assets/art/continuehover.png" id="39_pj2c0"]
 [ext_resource type="Texture2D" uid="uid://bhlqh0q2lqlff" path="res://Assets/art/retry.png" id="40_g1j4k"]
@@ -1209,12 +1210,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Control" type="Control" parent="CanvasLayer/UI_Layer" unique_id=1801718751]
+[node name="Items" type="Control" parent="CanvasLayer/UI_Layer" unique_id=1801718751]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI_Layer/Control" unique_id=1177560614]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI_Layer/Items" unique_id=1177560614]
 layout_mode = 0
 offset_left = 992.00006
 offset_top = 272.00003
@@ -1222,6 +1223,19 @@ offset_right = 1747.0
 offset_bottom = 1463.0
 scale = Vector2(0.365, 0.365)
 texture = ExtResource("36_viv21")
+
+[node name="ResetChipsButton" type="TextureButton" parent="CanvasLayer/UI_Layer" unique_id=2091818704]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 23.999996
+offset_top = -91.99994
+offset_right = 976.0
+offset_bottom = 152.00006
+grow_vertical = 0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("37_4tklr")
 
 [node name="WheelPivot" type="Node2D" parent="CanvasLayer" unique_id=2052149676]
 position = Vector2(758, 428)

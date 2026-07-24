@@ -16,6 +16,7 @@ extends Node2D
 # References to your lever nodes
 @onready var spin_lever: AnimatedSprite2D = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever
 @onready var table_limits_board: Control = $CanvasLayer/UI_Layer/TableLimitsBoard
+@onready var reset_chips_button: TextureButton = $CanvasLayer/UI_Layer/ResetChipsButton
 
 # Luck Dial
 @onready var luck_dial: TextureRect = $CanvasLayer/UI_Layer/LuckGauge/LuckDial
@@ -46,6 +47,8 @@ func _ready() -> void:
 	
 	# Connect the wheel spin finished signal
 	wheel_pivot.spin_finished.connect(_on_wheel_spin_finished)
+	
+	reset_chips_button.pressed.connect(_on_reset_chips_pressed)
 	
 	# Start looping the idle animation (first 8 frames)
 	spin_lever.play("idle")
@@ -354,3 +357,13 @@ func _on_control_gui_input(event: InputEvent) -> void:
 
 		is_spinning = true
 		spin_lever.play("pull")
+
+
+func _on_reset_chips_pressed() -> void:
+	if is_spinning or GameState.active_bets.is_empty():
+		return
+	for amount in GameState.active_bets.values():
+		GameState.balance += amount
+	GameState.active_bets.clear()
+	for chip in get_tree().get_nodes_in_group("placed_chips"):
+		chip.queue_free()
