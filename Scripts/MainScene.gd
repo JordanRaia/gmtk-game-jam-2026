@@ -4,12 +4,12 @@ extends Node2D
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 @onready var game_over: Control = $GameOverLayer/GameOver
 
-@onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip1000
-@onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip5000
-@onready var chip_25000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip25000
+@onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip1000
+@onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip5000
+@onready var chip_25000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip25000
 
 # References to your lever nodes
-@onready var spin_lever: AnimatedSprite2D = $CanvasLayer/UI_Layer/ChipTray/SpinLever
+@onready var spin_lever: AnimatedSprite2D = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever
 
 # Luck Dial
 @onready var luck_dial: TextureRect = $CanvasLayer/UI_Layer/LuckGauge/LuckDial
@@ -264,7 +264,7 @@ func _apply_spin_results(winning_number: int) -> void:
 		GameState.luck_meter = max(0, GameState.luck_meter - luck_drain)
 		print("Luck drained by ", luck_drain, "% (payout: $", total_winnings, " vs pre-win balance: $", GameState.balance, ")")
 
-		GameState.balance += total_winnings
+		GameState.balance = min(GameState.balance + total_winnings, 9999999)
 		print("Total cash forced back into balance: $", total_winnings)
 	else:
 		print("Excellent! You successfully burned all the bets this round.")
