@@ -7,23 +7,26 @@
 [ext_resource type="Script" uid="uid://b4xp81d6dywgf" path="res://Scripts/BettingDropZone.gd" id="4_5crlr"]
 [ext_resource type="Script" uid="uid://nr0io8g5x058" path="res://Scripts/TableLimitsBoard.gd" id="5_a814b"]
 [ext_resource type="Texture2D" uid="uid://yoh5bbv8j7mb" path="res://Assets/tablelimits.png" id="6_5crlr"]
+[ext_resource type="Texture2D" uid="uid://b3eocw3gopty5" path="res://Assets/art/10kchip.png" id="6_nlw8m"]
 [ext_resource type="Texture2D" uid="uid://syktsk6al06o" path="res://Assets/art/1kchip.png" id="7_1kchip"]
-[ext_resource type="Texture2D" uid="uid://blkpaygbnev8n" path="res://Assets/art/leveranim/lever_0000.png" id="7_h86nx"]
+[ext_resource type="Texture2D" uid="uid://bb7xmvgw6mser" path="res://Assets/art/leveranim/lever_0000.png" id="7_h86nx"]
 [ext_resource type="Texture2D" uid="uid://b0s1dkjvh7f4w" path="res://Assets/art/5kchip.png" id="8_5kchip"]
-[ext_resource type="Texture2D" uid="uid://drllsneq4clyi" path="res://Assets/art/leveranim/lever_0002.png" id="8_7jkkr"]
+[ext_resource type="Texture2D" uid="uid://ei8fcqvt58gu" path="res://Assets/art/leveranim/lever_0002.png" id="8_7jkkr"]
+[ext_resource type="Texture2D" uid="uid://bw5axx6vstjf0" path="res://Assets/art/50kchip.png" id="8_r1x6n"]
 [ext_resource type="Texture2D" uid="uid://bkaqfy23th3qe" path="res://Assets/art/25k.png" id="9_25kchip"]
-[ext_resource type="Texture2D" uid="uid://w6rkp8pkt5q1" path="res://Assets/art/leveranim/lever_0003.png" id="9_amtbh"]
-[ext_resource type="Texture2D" uid="uid://bpbx68hgt50ye" path="res://Assets/art/leveranim/lever_0005.png" id="10_obg7t"]
-[ext_resource type="Texture2D" uid="uid://cr3y75d16bqox" path="res://Assets/art/leveranim/lever_0007.png" id="11_v3bin"]
-[ext_resource type="Texture2D" uid="uid://bl2j6lww7cvax" path="res://Assets/art/leveranim/lever_0008.png" id="12_6dw4c"]
-[ext_resource type="Texture2D" uid="uid://cw8tn2swuqdik" path="res://Assets/art/leveranim/lever_0009.png" id="13_cxdnd"]
-[ext_resource type="Texture2D" uid="uid://w3vr4h4x2woo" path="res://Assets/art/leveranim/lever_0010.png" id="14_ro037"]
-[ext_resource type="Texture2D" uid="uid://coffbq42ott7u" path="res://Assets/art/leveranim/lever_0011.png" id="15_lppff"]
-[ext_resource type="Texture2D" uid="uid://b7j8vmbq1f75t" path="res://Assets/art/leveranim/lever_0012.png" id="16_5o6vq"]
-[ext_resource type="Texture2D" uid="uid://cbgcwmfg2pxi4" path="res://Assets/art/leveranim/lever_0013.png" id="17_5i0cj"]
-[ext_resource type="Texture2D" uid="uid://b2oyy35o5ur2q" path="res://Assets/art/leveranim/lever_0014.png" id="18_f3pw5"]
-[ext_resource type="Texture2D" uid="uid://catoursctv8u7" path="res://Assets/art/leveranim/lever_0015.png" id="19_nlw8m"]
-[ext_resource type="Texture2D" uid="uid://dgjeco2sf0o4s" path="res://Assets/art/leveranim/lever_0016.png" id="20_r1x6n"]
+[ext_resource type="Texture2D" uid="uid://bku5074npocbw" path="res://Assets/art/leveranim/lever_0003.png" id="9_amtbh"]
+[ext_resource type="Texture2D" uid="uid://ckwn3oknakgj8" path="res://Assets/art/100kchip.png" id="9_kvyqs"]
+[ext_resource type="Texture2D" uid="uid://cr701kyvh6o04" path="res://Assets/art/leveranim/lever_0005.png" id="10_obg7t"]
+[ext_resource type="Texture2D" uid="uid://bjvs25iyvl2q3" path="res://Assets/art/leveranim/lever_0007.png" id="11_v3bin"]
+[ext_resource type="Texture2D" uid="uid://btr1jp48kdylj" path="res://Assets/art/leveranim/lever_0008.png" id="12_6dw4c"]
+[ext_resource type="Texture2D" uid="uid://bnys4coja6ri0" path="res://Assets/art/leveranim/lever_0009.png" id="13_cxdnd"]
+[ext_resource type="Texture2D" uid="uid://njxhin3igl0t" path="res://Assets/art/leveranim/lever_0010.png" id="14_ro037"]
+[ext_resource type="Texture2D" uid="uid://bl7sbpct8o702" path="res://Assets/art/leveranim/lever_0011.png" id="15_lppff"]
+[ext_resource type="Texture2D" uid="uid://nbdtf2gch6op" path="res://Assets/art/leveranim/lever_0012.png" id="16_5o6vq"]
+[ext_resource type="Texture2D" uid="uid://d022wpx2lv2g5" path="res://Assets/art/leveranim/lever_0013.png" id="17_5i0cj"]
+[ext_resource type="Texture2D" uid="uid://dp6i73o632r30" path="res://Assets/art/leveranim/lever_0014.png" id="18_f3pw5"]
+[ext_resource type="Texture2D" uid="uid://bfg5l0p2x5kow" path="res://Assets/art/leveranim/lever_0015.png" id="19_nlw8m"]
+[ext_resource type="Texture2D" uid="uid://bbex76belmnxl" path="res://Assets/art/leveranim/lever_0016.png" id="20_r1x6n"]
 [ext_resource type="Texture2D" uid="uid://b52u2edecrtko" path="res://Assets/art/luckbox.png" id="25_obg7t"]
 [ext_resource type="Texture2D" uid="uid://b073dbqx8e3p2" path="res://Assets/art/luckmeter.png" id="26_v3bin"]
 [ext_resource type="Texture2D" uid="uid://cpeek4y4d6y6k" path="res://Assets/art/luckdial.png" id="27_6dw4c"]
@@ -141,6 +144,14 @@ expand_mode = 1
 script = ExtResource("2_rf2cd")
 chip_value = 5000
 
+[node name="Chip10000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1863290301]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("6_nlw8m")
+expand_mode = 1
+script = ExtResource("2_rf2cd")
+chip_value = 10000
+
 [node name="Chip25000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=42250852]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
@@ -150,9 +161,27 @@ stretch_mode = 5
 script = ExtResource("2_rf2cd")
 chip_value = 25000
 
+[node name="Chip50000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=2011454130]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("8_r1x6n")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_rf2cd")
+chip_value = 50000
+
+[node name="Chip100000" type="TextureRect" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1966106776]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("9_kvyqs")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_rf2cd")
+chip_value = 100000
+
 [node name="SpinLever" type="AnimatedSprite2D" parent="CanvasLayer/UI_Layer/ChipTray" unique_id=1371182476]
 z_index = 1
-position = Vector2(357.24997, 45.999996)
+position = Vector2(661.25, 46)
 scale = Vector2(0.15, 0.15)
 sprite_frames = SubResource("SpriteFrames_dh88x")
 animation = &"idle"
