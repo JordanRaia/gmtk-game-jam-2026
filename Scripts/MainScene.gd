@@ -7,6 +7,8 @@ extends Node2D
 @onready var error_banner: TextureRect = $ErrorBannerLayer/ErrorBanner
 @onready var error_label: Label = $ErrorBannerLayer/ErrorLabel
 
+@onready var miku_sprite: AnimatedSprite2D = $MikuLayer/MikuSprite
+
 @onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip1000
 @onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip5000
 @onready var chip_25000: TextureRect = $CanvasLayer/UI_Layer/PanelContainer/ChipTray/Chip25000
@@ -23,6 +25,7 @@ extends Node2D
 var is_spinning: bool = false
 var _game_over_triggered: bool = false
 var _error_banner_showing: bool = false
+var _miku_showing: bool = false
 
 const LUCK_DIAL_DURATION: float = 0.8
 var _display_luck: float = 0.0
@@ -76,6 +79,31 @@ func show_error_banner(message: String) -> void:
 	tween.tween_interval(2.0)
 	tween.tween_method(_set_banner_y, shown_y, parked_y, 0.35).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_callback(func() -> void: _error_banner_showing = false)
+
+func show_miku(happy: bool) -> void:
+	if _miku_showing:
+		return
+	_miku_showing = true
+
+	var anim: String = "happy" if happy else "sad"
+	var frame_tex: Texture2D = miku_sprite.sprite_frames.get_frame_texture(anim, 0)
+	var scaled_half_width: float = (frame_tex.get_width() * miku_sprite.scale.x) / 2.0
+	var parked_x: float = - (scaled_half_width + 20.0)
+	var shown_x: float = scaled_half_width
+
+	miku_sprite.position.x = parked_x
+	miku_sprite.play(anim)
+
+	var hold_time: float = float(miku_sprite.sprite_frames.get_frame_count(anim)) \
+		/ miku_sprite.sprite_frames.get_animation_speed(anim)
+
+	var tween: Tween = create_tween()
+	tween.tween_property(miku_sprite, "position:x", shown_x, 0.75) \
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_interval(hold_time)
+	tween.tween_property(miku_sprite, "position:x", parked_x, 0.75) \
+		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_callback(func() -> void: _miku_showing = false)
 
 func _on_chip_gui_input(event: InputEvent, amount: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -218,11 +246,11 @@ func _calculate_payout_for_number(num: int, red_numbers: Array, black_numbers: A
 				"3rd12":
 					if num >= 1 and num <= 12: won = true; payout_multiplier = 3
 				"row1":
-					if num % 3 == 0: won = true; payout_multiplier = 3
+					if num % 3 == 1: won = true; payout_multiplier = 3
 				"row2":
 					if num % 3 == 2: won = true; payout_multiplier = 3
 				"row3":
-					if num % 3 == 1: won = true; payout_multiplier = 3
+					if num % 3 == 0: won = true; payout_multiplier = 3
 
 		if won:
 			total += bet_amount * payout_multiplier
@@ -277,11 +305,11 @@ func _apply_spin_results(winning_number: int) -> void:
 				"3rd12":
 					if winning_number >= 1 and winning_number <= 12: won = true; payout_multiplier = 3
 				"row1":
-					if winning_number % 3 == 0: won = true; payout_multiplier = 3
+					if winning_number % 3 == 1: won = true; payout_multiplier = 3
 				"row2":
 					if winning_number % 3 == 2: won = true; payout_multiplier = 3
 				"row3":
-					if winning_number % 3 == 1: won = true; payout_multiplier = 3
+					if winning_number % 3 == 0: won = true; payout_multiplier = 3
 
 		if won:
 			var winnings: int = bet_amount * payout_multiplier
@@ -305,6 +333,11 @@ func _apply_spin_results(winning_number: int) -> void:
 		var luck_gain: int = clamp(int(float(net_loss) / float(GameState.starting_balance) * 100.0), 1, 100)
 		GameState.luck_meter = min(100, GameState.luck_meter + luck_gain)
 		print("Luck gained by ", luck_gain, "% (net loss: $", net_loss, " vs starting balance: $", GameState.starting_balance, ")")
+
+	if net_loss > 0:
+		show_miku(true)
+	elif net_loss < 0:
+		show_miku(false)
 
 	GameState.active_bets.clear()
 

@@ -47,6 +47,22 @@
 [ext_resource type="Script" uid="uid://di5kgn6g78mx" path="res://Scripts/PauseMenu.gd" id="44_pmenu"]
 [ext_resource type="Script" uid="uid://c8nmrmtuv44lp" path="res://Scripts/GameOver.gd" id="46_gameover"]
 [ext_resource type="Texture2D" uid="uid://d2kyp37j7ogk3" path="res://Assets/art/error.png" id="49_gdhla"]
+[ext_resource type="Texture2D" uid="uid://bm77k7x2bhwii" path="res://Assets/art/mikuhappy/mikuhappy_0000.png" id="79_uqm4d"]
+[ext_resource type="Texture2D" uid="uid://b3lb1cyr247qm" path="res://Assets/art/mikuhappy/mikuhappy_0001.png" id="80_rsumg"]
+[ext_resource type="Texture2D" uid="uid://c80nogrew5ckb" path="res://Assets/art/mikuhappy/mikuhappy_0002.png" id="81_sivpx"]
+[ext_resource type="Texture2D" uid="uid://hr5ewelj1160" path="res://Assets/art/mikuhappy/mikuhappy_0003.png" id="82_i445x"]
+[ext_resource type="Texture2D" uid="uid://dp5jejwgkacgn" path="res://Assets/art/mikuhappy/mikuhappy_0004.png" id="83_d7gnp"]
+[ext_resource type="Texture2D" uid="uid://bx3v4vlsjk8ea" path="res://Assets/art/mikuhappy/mikuhappy_0005.png" id="84_le8fv"]
+[ext_resource type="Texture2D" uid="uid://b2fa1gn6p7jho" path="res://Assets/art/mikuhappy/mikuhappy_0006.png" id="85_hgnmy"]
+[ext_resource type="Texture2D" uid="uid://i2j6vhdfmdt2" path="res://Assets/art/mikuhappy/mikuhappy_0007.png" id="86_3bchx"]
+[ext_resource type="Texture2D" uid="uid://dqk31pi4r0ygw" path="res://Assets/art/mikusad/mikusad_0000.png" id="87_sw1r6"]
+[ext_resource type="Texture2D" uid="uid://cmeah7ae2cv3b" path="res://Assets/art/mikusad/mikusad_0001.png" id="88_4tklr"]
+[ext_resource type="Texture2D" uid="uid://ty4q17h32noj" path="res://Assets/art/mikusad/mikusad_0002.png" id="89_djr4c"]
+[ext_resource type="Texture2D" uid="uid://bp14wgvppb81w" path="res://Assets/art/mikusad/mikusad_0003.png" id="90_k5rn2"]
+[ext_resource type="Texture2D" uid="uid://c2oeu8jiqmc4v" path="res://Assets/art/mikusad/mikusad_0004.png" id="91_a4bur"]
+[ext_resource type="Texture2D" uid="uid://c255hmsms57mm" path="res://Assets/art/mikusad/mikusad_0005.png" id="92_5mcml"]
+[ext_resource type="Texture2D" uid="uid://b4qchf5t8cmhp" path="res://Assets/art/mikusad/mikusad_0006.png" id="93_e3wsx"]
+[ext_resource type="Texture2D" uid="uid://dcreco0vql7cc" path="res://Assets/art/mikusad/mikusad_0007.png" id="94_4e253"]
 [ext_resource type="Texture2D" uid="uid://djacglfaa5wh6" path="res://Assets/art/game over screen/gameover_0000.png" id="go_0"]
 [ext_resource type="Texture2D" uid="uid://sfi100s2ys7c" path="res://Assets/art/game over screen/gameover_0001.png" id="go_1"]
 [ext_resource type="Texture2D" uid="uid://bsyy6ufb7gk4h" path="res://Assets/art/game over screen/gameover_0002.png" id="go_2"]
@@ -253,6 +269,67 @@ animations = [{
 }],
 "loop": 1,
 "name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d30vs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("79_uqm4d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("80_rsumg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("81_sivpx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("82_i445x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("83_d7gnp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("84_le8fv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("85_hgnmy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("86_3bchx")
+}],
+"loop": 1,
+"name": &"happy",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("87_sw1r6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("88_4tklr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("89_djr4c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("90_k5rn2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_a4bur")
+}, {
+"duration": 1.0,
+"texture": ExtResource("92_5mcml")
+}, {
+"duration": 1.0,
+"texture": ExtResource("93_e3wsx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("94_4e253")
+}],
+"loop": 1,
+"name": &"sad",
 "speed": 12.0
 }]
 
@@ -1289,6 +1366,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 metadata/_edit_use_anchors_ = true
+
+[node name="MikuLayer" type="CanvasLayer" parent="." unique_id=1809968796]
+layer = 3
+
+[node name="MikuSprite" type="AnimatedSprite2D" parent="MikuLayer" unique_id=1779164482]
+position = Vector2(-128, 192)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_d30vs")
+animation = &"sad"
+frame = 5
+frame_progress = 0.17666
 
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/ContinueButton" to="PauseMenuLayer/PauseMenu" method="_on_continue_pressed"]
