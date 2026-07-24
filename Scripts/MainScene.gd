@@ -140,27 +140,6 @@ func _process(delta: float) -> void:
 	var luck_normalized: float = _display_luck / 100.0
 	luck_dial.rotation = deg_to_rad(lerp(-90.0, 90.0, luck_normalized))
 
-# Triggered when clicking the Area2D shape over the lever
-func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if is_spinning:
-		return
-
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if GameState.active_bets.is_empty():
-			show_error_banner("Place a bet first!")
-			return
-
-		var total_bet: int = 0
-		for amount in GameState.active_bets.values():
-			total_bet += amount
-		if total_bet < GameState.table_min_bet:
-			show_error_banner("Bet is below table minimum of $" + GameState.format_money(GameState.table_min_bet) + "!")
-			return
-
-		is_spinning = true
-		# Play the pull animation (remaining frames)
-		spin_lever.play("pull")
-
 # Triggered automatically when the 'pull' animation completes
 func _on_lever_animation_finished() -> void:
 	if spin_lever.animation == "pull":
