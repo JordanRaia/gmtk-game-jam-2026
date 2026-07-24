@@ -45,10 +45,25 @@
 [ext_resource type="Texture2D" uid="uid://bjodv30l46uf8" path="res://Assets/art/quit.png" id="42_pj2c0"]
 [ext_resource type="Texture2D" uid="uid://c0ecgna7xebd0" path="res://Assets/art/quithover.png" id="43_g1j4k"]
 [ext_resource type="Script" uid="uid://di5kgn6g78mx" path="res://Scripts/PauseMenu.gd" id="44_pmenu"]
-[ext_resource type="Texture2D" uid="uid://04yo5aot7ycv" path="res://Assets/art/gameover.png" id="45_4f1ln"]
 [ext_resource type="Script" uid="uid://c8nmrmtuv44lp" path="res://Scripts/GameOver.gd" id="46_gameover"]
 [ext_resource type="Texture2D" uid="uid://d2kyp37j7ogk3" path="res://Assets/art/error.png" id="49_gdhla"]
-[ext_resource type="Texture2D" uid="uid://cvopmyljd1n3e" path="res://Assets/art/pausescreen/pausescreen_0000.png" id="ps_0"]
+[ext_resource type="Texture2D" uid="uid://djacglfaa5wh6" path="res://Assets/art/game over screen/gameover_0000.png" id="go_0"]
+[ext_resource type="Texture2D" uid="uid://sfi100s2ys7c" path="res://Assets/art/game over screen/gameover_0001.png" id="go_1"]
+[ext_resource type="Texture2D" uid="uid://bsyy6ufb7gk4h" path="res://Assets/art/game over screen/gameover_0002.png" id="go_2"]
+[ext_resource type="Texture2D" uid="uid://bquw4v847xctg" path="res://Assets/art/game over screen/gameover_0003.png" id="go_3"]
+[ext_resource type="Texture2D" uid="uid://d2m5hfxcrvpwf" path="res://Assets/art/game over screen/gameover_0004.png" id="go_4"]
+[ext_resource type="Texture2D" uid="uid://bl0lhmeueoj4q" path="res://Assets/art/game over screen/gameover_0005.png" id="go_5"]
+[ext_resource type="Texture2D" uid="uid://bl4uwlf3rm2n5" path="res://Assets/art/game over screen/gameover_0006.png" id="go_6"]
+[ext_resource type="Texture2D" uid="uid://csi17wufdgj77" path="res://Assets/art/game over screen/gameover_0007.png" id="go_7"]
+[ext_resource type="Texture2D" uid="uid://c8gejpccpo7ho" path="res://Assets/art/game over screen/gameover_0008.png" id="go_8"]
+[ext_resource type="Texture2D" uid="uid://c5r6e7excfruf" path="res://Assets/art/game over screen/gameover_0009.png" id="go_9"]
+[ext_resource type="Texture2D" uid="uid://ditmsb8yyi0c3" path="res://Assets/art/game over screen/gameover_0010.png" id="go_10"]
+[ext_resource type="Texture2D" uid="uid://dx8mcbd14meoj" path="res://Assets/art/game over screen/gameover_0011.png" id="go_11"]
+[ext_resource type="Texture2D" uid="uid://bnxu4y10irqrx" path="res://Assets/art/game over screen/gameover_0012.png" id="go_12"]
+[ext_resource type="Texture2D" uid="uid://bltuhp5vgynu1" path="res://Assets/art/game over screen/gameover_0013.png" id="go_13"]
+[ext_resource type="Texture2D" uid="uid://jkl3ydbxgp3r" path="res://Assets/art/game over screen/gameover_0014.png" id="go_14"]
+[ext_resource type="Texture2D" uid="uid://dupyequi4kumn" path="res://Assets/art/game over screen/gameover_0015.png" id="go_15"]
+[ext_resource type="Texture2D" uid="uid://cvopmyljd1n3e" path="res://Assets/art/pausescreen_0000.png" id="ps_0"]
 [ext_resource type="Texture2D" uid="uid://cc2xugvbm3ae3" path="res://Assets/art/pausescreen/pausescreen_0001.png" id="ps_1"]
 [ext_resource type="Texture2D" uid="uid://ddji1h6oklaq6" path="res://Assets/art/pausescreen/pausescreen_0002.png" id="ps_2"]
 [ext_resource type="Texture2D" uid="uid://bsbaormj0jdd7" path="res://Assets/art/pausescreen/pausescreen_0003.png" id="ps_3"]
@@ -179,6 +194,62 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("ps_14")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_go"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("go_0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("go_15")
 }],
 "loop": 1,
 "name": &"default",
@@ -1101,7 +1172,7 @@ script = ExtResource("44_pmenu")
 position = Vector2(640, 360)
 sprite_frames = SubResource("SpriteFrames_ps")
 autoplay = "default"
-frame_progress = 0.5793348
+frame_progress = 0.6720584
 
 [node name="ContinueButton" type="TextureButton" parent="PauseMenuLayer/PauseMenu" unique_id=1507847760]
 layout_mode = 1
@@ -1161,11 +1232,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("46_gameover")
 
-[node name="Background" type="TextureRect" parent="GameOverLayer/GameOver" unique_id=2123082007]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("45_4f1ln")
+[node name="Background" type="AnimatedSprite2D" parent="GameOverLayer/GameOver" unique_id=2123082007]
+position = Vector2(640, 360)
+sprite_frames = SubResource("SpriteFrames_go")
+autoplay = "default"
 
 [node name="RetryButton" type="TextureButton" parent="GameOverLayer/GameOver" unique_id=2112774025]
 layout_mode = 1
