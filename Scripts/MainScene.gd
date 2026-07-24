@@ -1,6 +1,8 @@
 extends Node2D
 
 
+@onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
+
 @onready var chip_1000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip1000
 @onready var chip_5000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip5000
 @onready var chip_25000: TextureRect = $CanvasLayer/UI_Layer/ChipTray/Chip25000

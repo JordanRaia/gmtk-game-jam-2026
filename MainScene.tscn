@@ -36,6 +36,14 @@
 [ext_resource type="Script" uid="uid://c8na0uqudkt2r" path="res://Scripts/Timer.gd" id="30_ro037"]
 [ext_resource type="Texture2D" uid="uid://bmxc0peu2cfrk" path="res://Assets/art/ball.png" id="32_lppff"]
 [ext_resource type="Script" uid="uid://cjar8g23mh4ts" path="res://Scripts/RouletteWheel.gd" id="33_5o6vq"]
+[ext_resource type="Texture2D" uid="uid://bj74flqba7qmg" path="res://Assets/art/pausescreen.png" id="37_506kc"]
+[ext_resource type="Texture2D" uid="uid://1d5xapy5cf4t" path="res://Assets/art/continuebutton.png" id="38_igrck"]
+[ext_resource type="Texture2D" uid="uid://c5koxopajyr0" path="res://Assets/art/continuehover.png" id="39_pj2c0"]
+[ext_resource type="Texture2D" uid="uid://bhlqh0q2lqlff" path="res://Assets/art/retry.png" id="40_g1j4k"]
+[ext_resource type="Texture2D" uid="uid://bvfysxt53dsyn" path="res://Assets/art/retryhover.png" id="41_4f1ln"]
+[ext_resource type="Texture2D" uid="uid://bjodv30l46uf8" path="res://Assets/art/quit.png" id="42_pj2c0"]
+[ext_resource type="Texture2D" uid="uid://c0ecgna7xebd0" path="res://Assets/art/quithover.png" id="43_g1j4k"]
+[ext_resource type="Script" uid="uid://di5kgn6g78mx" path="res://Scripts/PauseMenu.gd" id="44_pmenu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dh88x"]
 animations = [{
@@ -982,4 +990,76 @@ script = ExtResource("33_5o6vq")
 scale = Vector2(0.035, 0.035)
 texture = ExtResource("32_lppff")
 
+[node name="PauseMenuLayer" type="CanvasLayer" parent="." unique_id=675652344]
+layer = 10
+
+[node name="PauseMenu" type="Control" parent="PauseMenuLayer" unique_id=2081694859]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("44_pmenu")
+
+[node name="Background" type="TextureRect" parent="PauseMenuLayer/PauseMenu" unique_id=897769814]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("37_506kc")
+expand_mode = 1
+
+[node name="ContinueButton" type="TextureButton" parent="PauseMenuLayer/PauseMenu" unique_id=1507847760]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = -218.0
+offset_right = 372.0
+offset_bottom = -144.0
+grow_vertical = 0
+texture_normal = ExtResource("38_igrck")
+texture_hover = ExtResource("39_pj2c0")
+
+[node name="RetryButton" type="TextureButton" parent="PauseMenuLayer/PauseMenu" unique_id=2091879768]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -218.0
+offset_right = 162.0
+offset_bottom = -144.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("40_g1j4k")
+texture_hover = ExtResource("41_4f1ln")
+
+[node name="QuitButton" type="TextureButton" parent="PauseMenuLayer/PauseMenu" unique_id=504755677]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -372.0
+offset_top = -218.0
+offset_right = -48.0
+offset_bottom = -144.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("42_pj2c0")
+texture_hover = ExtResource("43_g1j4k")
+
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
+[connection signal="pressed" from="PauseMenuLayer/PauseMenu/ContinueButton" to="PauseMenuLayer/PauseMenu" method="_on_continue_pressed"]
+[connection signal="pressed" from="PauseMenuLayer/PauseMenu/RetryButton" to="PauseMenuLayer/PauseMenu" method="_on_retry_pressed"]
+[connection signal="pressed" from="PauseMenuLayer/PauseMenu/QuitButton" to="PauseMenuLayer/PauseMenu" method="_on_quit_pressed"]
