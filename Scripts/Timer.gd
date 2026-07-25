@@ -1,5 +1,10 @@
 extends Control
 
+const FLASH_THRESHOLD: float = 30.0
+const FLASH_SPEED: float = 5.0
+
+var _flash_time: float = 0.0
+
 var number_textures = [
 	preload("res://Assets/Numbers/0.png"),
 	preload("res://Assets/Numbers/1.png"),
@@ -24,8 +29,10 @@ var colon_texture = preload("res://Assets/Numbers/colon.png")
 func _ready() -> void:
 	update_display()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	_flash_time += delta
 	update_display()
+	_update_flash()
 
 func update_display() -> void:
 	if digits.is_empty() or digits[0] == null:
@@ -51,3 +58,16 @@ func update_display() -> void:
 		else:
 			digits[i].texture = number_textures[ch.to_int()]
 		digits[i].visible = true
+
+func _update_flash() -> void:
+	if digits.is_empty() or digits[0] == null:
+		return
+
+	if GameState.time_remaining < FLASH_THRESHOLD:
+		var t: float = (sin(_flash_time * FLASH_SPEED) + 1.0) / 2.0
+		var flash_color: Color = Color(1.0, t, t, 1.0)
+		for d in digits:
+			d.modulate = flash_color
+	else:
+		for d in digits:
+			d.modulate = Color.WHITE

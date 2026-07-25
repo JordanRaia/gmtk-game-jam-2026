@@ -597,7 +597,7 @@ func _start_tutorial() -> void:
 		},
 		{
 			"rect": Rect2(),
-			"text": "After every few spins, you'll be offered special ITEMS to help you lose money faster.\n\nNow go broke. Good luck... or bad luck, I guess."
+			"text": "After every few spins, you'll be offered special ITEMS to help you lose money faster.\n\nThere are %d stages total — beat them all to win!\nNow go broke. Good luck... or bad luck, I guess." % GameState.STAGE_CONFIG.size()
 		},
 	]
 	tutorial_overlay.start(steps)
