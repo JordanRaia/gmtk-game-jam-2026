@@ -30,6 +30,7 @@ extends Node2D
 @onready var wheel_pivot: Node2D = $CanvasLayer/WheelPivot
 
 @onready var item_select_panel: Control = $ItemLayer/ItemSelectPanel
+@onready var tutorial_overlay: Control = $TutorialLayer/TutorialOverlay
 
 const CARPET_NORMAL: Texture2D = preload("res://Assets/art/carpet.png")
 const CARPET_PURPLE: Texture2D = preload("res://Assets/art/purplecarpet.png")
@@ -86,6 +87,9 @@ func _ready() -> void:
 	item_select_panel.panel_closed.connect(_on_item_panel_closed)
 	ItemSystem.request_lighter_effect.connect(apply_lighter)
 	ItemSystem.request_smoke_bomb_effect.connect(apply_smoke_bomb)
+
+	if GameState.current_stage == 1 and not GameState.tutorial_seen:
+		call_deferred("_start_tutorial")
 
 
 func _apply_stage_config() -> void:
@@ -552,3 +556,48 @@ func _on_reset_chips_pressed() -> void:
 	for chip in get_tree().get_nodes_in_group("placed_chips"):
 		chip.queue_free()
 	_check_table_minimum()
+
+
+func _get_node_screen_rect(node: Control, pad: float = 8.0) -> Rect2:
+	var xform: Transform2D = node.get_global_transform()
+	var tl: Vector2 = xform * Vector2.ZERO
+	var top_r: Vector2 = xform * Vector2(node.size.x, 0.0)
+	var bl: Vector2 = xform * Vector2(0.0, node.size.y)
+	var br: Vector2 = xform * node.size
+	var min_x: float = minf(minf(tl.x, top_r.x), minf(bl.x, br.x))
+	var min_y: float = minf(minf(tl.y, top_r.y), minf(bl.y, br.y))
+	var max_x: float = maxf(maxf(tl.x, top_r.x), maxf(bl.x, br.x))
+	var max_y: float = maxf(maxf(tl.y, top_r.y), maxf(bl.y, br.y))
+	return Rect2(min_x - pad, min_y - pad, (max_x - min_x) + pad * 2.0, (max_y - min_y) + pad * 2.0)
+
+
+func _start_tutorial() -> void:
+	var steps: Array[Dictionary] = [
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/Balance).merge(
+					_get_node_screen_rect($CanvasLayer/UI_Layer/Balance/Digits)).grow_individual(0.0, 0.0, 90.0, 0.0),
+			"text": "This is your BALANCE. you start with $50,000.\nYour goal is to reach $0 before time runs out.\nReach $0 and you WIN the round!"
+		},
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/Timer).grow_individual(0.0, 0.0, 60.0, 0.0),
+			"text": "This is your TIME. If it runs out before your balance hits $0, it's GAME OVER."
+		},
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/PanelContainer),
+			"text": "Drag a chip from here onto the roulette table to place a bet.\nBigger chips = faster losses!"
+		},
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/RouletteTable),
+			"text": "Bets that LOSE burn your money = great!\nBets that WIN add money back = bad!\nTry to bet on less likely outcomes. Pull the lever on the right to spin!"
+		},
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/LuckGauge/LuckBox).merge(
+					_get_node_screen_rect($CanvasLayer/UI_Layer/LuckGauge/LuckMeter)),
+			"text": "This is your LUCK meter. High luck steers the wheel toward your bets, making you WIN more often.\nThat's the LAST thing you want. Keep luck LOW!"
+		},
+		{
+			"rect": Rect2(),
+			"text": "After every few spins, you'll be offered special ITEMS to help you lose money faster.\n\nNow go broke. Good luck... or bad luck, I guess."
+		},
+	]
+	tutorial_overlay.start(steps)
