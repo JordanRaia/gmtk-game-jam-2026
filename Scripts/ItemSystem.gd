@@ -143,12 +143,12 @@ func apply_item(id: String) -> void:
 			_record_item_used(id)
 
 		"smokebomb":
-			if spin_snapshots.is_empty():
-				print("Smoke Bomb: no past spins to rewind!")
+			if largest_win_amount <= 0:
+				print("Smoke Bomb: no wins to clear!")
 				return
 			smokebomb_times_used += 1
 			request_smoke_bomb_effect.emit()
-			print("Smoke Bomb: rewinding (tier ", smokebomb_times_used, ")")
+			print("Smoke Bomb: clearing win (tier ", smokebomb_times_used, ")")
 			_record_item_used(id)
 
 		"stopwatch":

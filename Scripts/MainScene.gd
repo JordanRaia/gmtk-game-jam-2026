@@ -1,6 +1,7 @@
 extends Node2D
 
 
+@onready var background: TextureRect = $CanvasLayer/TextureRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 @onready var game_over: Control = $GameOverLayer/GameOver
 @onready var win_screen: Control = $WinScreenLayer/WinScreen
@@ -29,6 +30,9 @@ extends Node2D
 @onready var wheel_pivot: Node2D = $CanvasLayer/WheelPivot
 
 @onready var item_select_panel: Control = $ItemLayer/ItemSelectPanel
+
+const CARPET_NORMAL: Texture2D = preload("res://Assets/art/carpet.png")
+const CARPET_PURPLE: Texture2D = preload("res://Assets/art/purplecarpet.png")
 
 var is_spinning: bool = false
 var _game_over_triggered: bool = false
@@ -90,6 +94,9 @@ func _apply_stage_config() -> void:
 	table_limits_board.min_value = cfg[2]
 	table_limits_board.max_value = cfg[3]
 	GameState.luck_meter = cfg[5]
+
+	var stage: int = GameState.current_stage
+	background.texture = CARPET_PURPLE if (stage == 2 or stage == 4) else CARPET_NORMAL
 
 	var table_max: int = cfg[3]
 	chip_1000.visible = 1000 <= table_max
@@ -316,17 +323,14 @@ func apply_lighter() -> void:
 
 ## Smoke Bomb effect: restore state from a past snapshot.
 func apply_smoke_bomb() -> void:
-	var snap: Dictionary = ItemSystem.get_smoke_bomb_snapshot()
-	if snap.is_empty():
-		print("Smoke Bomb: no snapshot available.")
+	if ItemSystem.largest_win_amount <= 0:
+		print("Smoke Bomb: no wins to clear.")
 		return
-	GameState.balance = snap["balance"]
-	GameState.luck_meter = snap["luck_meter"]
-	GameState.time_remaining = snap["time_remaining"]
-	GameState.active_bets.clear()
-	for chip in get_tree().get_nodes_in_group("placed_chips"):
-		chip.queue_free()
-	print("Smoke Bomb: restored to balance=$", GameState.balance, " luck=", GameState.luck_meter)
+	# Base (1st use): remove 75% of largest win. Enhanced (2nd+ use): remove 100%.
+	var fraction: float = 1.0 if ItemSystem.smokebomb_times_used > 1 else 0.75
+	var amount: int = int(float(ItemSystem.largest_win_amount) * fraction)
+	GameState.balance = max(0, GameState.balance - amount)
+	print("Smoke Bomb: removed $", amount, " (", int(fraction * 100), "% of $", ItemSystem.largest_win_amount, ") from balance.")
 	_check_table_minimum()
 
 
