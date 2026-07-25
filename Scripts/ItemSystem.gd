@@ -65,10 +65,17 @@ func reset_for_stage() -> void:
 	items_updated.emit()
 
 
+## Returns true for items that have hit their per-stage use limit.
+func is_item_exhausted(id: String) -> bool:
+	match id:
+		"lighter": return lighter_times_used >= 1
+	return false
+
+
 func get_draft_offer() -> Array[String]:
-	var pool: Array[String] = ITEMS.duplicate()
+	var pool: Array[String] = ITEMS.filter(func(id: String) -> bool: return not is_item_exhausted(id))
 	pool.shuffle()
-	return pool.slice(0, 3)
+	return pool.slice(0, min(3, pool.size()))
 
 
 func should_offer_items() -> bool:
@@ -124,6 +131,9 @@ func apply_item(id: String) -> void:
 			_record_item_used(id)
 
 		"lighter":
+			if lighter_times_used >= 1:
+				print("Lighter: already used this stage!")
+				return
 			if largest_win_amount <= 0:
 				print("Lighter: no wins to burn yet!")
 				return
