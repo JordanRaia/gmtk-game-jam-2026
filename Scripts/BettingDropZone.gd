@@ -18,12 +18,13 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 		GameState.show_error.emit("Not enough balance!")
 		return
 
-	# Enforce total table maximum across all bet spots
+	# Enforce total table maximum across all bet spots (Leek item may raise this).
+	var effective_max: int = ItemSystem.get_effective_max_bet()
 	var total_all_bets: int = 0
 	for amount in GameState.active_bets.values():
 		total_all_bets += amount
-	if total_all_bets + chip_value > GameState.table_max_bet:
-		GameState.show_error.emit("Bet exceeds table maximum of $" + GameState.format_money(GameState.table_max_bet) + "!")
+	if total_all_bets + chip_value > effective_max:
+		GameState.show_error.emit("Bet exceeds table maximum of $" + GameState.format_money(effective_max) + "!")
 		return
 
 	# Deduct from balance

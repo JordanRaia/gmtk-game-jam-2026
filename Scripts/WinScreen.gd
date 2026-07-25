@@ -27,4 +27,5 @@ func _on_next_pressed() -> void:
 	GameState.starting_balance = cfg[0]
 	GameState.time_remaining = float(cfg[1])
 	GameState.active_bets = {}
+	ItemSystem.reset_for_stage()
 	get_tree().reload_current_scene()
