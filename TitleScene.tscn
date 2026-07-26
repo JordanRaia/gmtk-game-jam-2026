@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cuugslhp5uuvf"]
+
+[ext_resource type="Script" uid="uid://c2sgwixqp5rad" path="res://Scripts/TitleScene.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c8qm0pyisvvj0" path="res://Assets/art/mikutitle.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dtuaqcv36nvcu" path="res://Assets/art/playbutton.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://u8i3cm4bkggc" path="res://Assets/art/playbuttonhover.png" id="4"]
+
+[node name="TitleScene" type="Node2D" unique_id=353524186]
+script = ExtResource("1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1495214263]
+
+[node name="Background" type="TextureRect" parent="CanvasLayer" unique_id=946568131]
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PlayButton" type="TextureButton" parent="CanvasLayer" unique_id=70900917]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -171.0
+offset_top = 201.5
+offset_right = 171.0
+offset_bottom = 294.5
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("3")
+texture_pressed = ExtResource("3")
+texture_hover = ExtResource("4")
