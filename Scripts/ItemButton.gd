@@ -23,7 +23,7 @@ const ITEM_NAMES: Dictionary = {
 const ITEM_DESCRIPTIONS: Dictionary = {
 	"crow": "Luck gain\nx0.5 (3 rolls)",
 	"lighter": "Burn your\nlargest win",
-	"smokebomb": "Clear 75% of\nlargest win",
+	"smokebomb": "Clear your\nlast win",
 	"leek": "Max bet\nx2 (3 rolls)",
 	"magictrick": "Next win\npays 30%",
 	"stopwatch": "Add\n60 seconds",

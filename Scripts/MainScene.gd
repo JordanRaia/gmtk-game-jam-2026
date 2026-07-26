@@ -54,6 +54,7 @@ var _luck_decay_accum: float = 0.0
 func _ready() -> void:
 	add_to_group("main_scene")
 	_apply_stage_config()
+	AudioManager.start_casino_ambience()
 
 	chip_1000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 1000))
 	chip_5000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 5000))
@@ -306,6 +307,7 @@ func _on_wheel_spin_finished(winning_number: int) -> void:
 		return
 
 	ItemSystem.on_spin_complete(net_winnings)
+	table_limits_board.refresh_display()
 
 	if ItemSystem.should_offer_items():
 		ItemSystem.consume_offer()
@@ -324,6 +326,7 @@ func _on_item_panel_closed() -> void:
 	if GameState.balance <= 0:
 		return
 	get_tree().paused = false
+	table_limits_board.refresh_display()
 
 
 ## Lighter effect: subtract largest recorded win from balance.
@@ -338,14 +341,12 @@ func apply_lighter() -> void:
 
 ## Smoke Bomb effect: restore state from a past snapshot.
 func apply_smoke_bomb() -> void:
-	if ItemSystem.largest_win_amount <= 0:
+	if ItemSystem.last_win_amount <= 0:
 		print("Smoke Bomb: no wins to clear.")
 		return
-	# Base (1st use): remove 75% of largest win. Enhanced (2nd+ use): remove 100%.
-	var fraction: float = 1.0 if ItemSystem.smokebomb_times_used > 1 else 0.75
-	var amount: int = int(float(ItemSystem.largest_win_amount) * fraction)
+	var amount: int = ItemSystem.last_win_amount
 	GameState.balance = max(0, GameState.balance - amount)
-	print("Smoke Bomb: removed $", amount, " (", int(fraction * 100), "% of $", ItemSystem.largest_win_amount, ") from balance.")
+	print("Smoke Bomb: removed $", amount, " (last win) from balance.")
 	_check_table_minimum()
 
 

@@ -28,6 +28,10 @@ const VOLUME_OFFSETS: Dictionary = {
 	"button_hover": - 28.0,
 	"button_click": - 4.0,
 	"slide_advance": - 8.0,
+	"error": - 10.0,
+	# Ambience (Ambience bus is already at -12 dB; these fine-tune on top)
+	"ambience_casino": - 8.0, # -20 dB total
+	"ambience_wind": 0.0, # -12 dB total
 	# Casino / World
 	"chip_drop": - 8.0,
 	"chips_reset": - 8.0,
@@ -46,6 +50,8 @@ var _world_pool_index: int = 0
 var _wheel_loop_player: AudioStreamPlayer
 var _timer_loop_player: AudioStreamPlayer
 var _fanfare_player: AudioStreamPlayer
+var _casino_ambience_player: AudioStreamPlayer
+var _wind_ambience_player: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -82,6 +88,22 @@ func _ready() -> void:
 	_fanfare_player.stream = preload("res://Assets/Audio/sfx_win_fanfare.ogg")
 	_fanfare_player.volume_db = VOLUME_OFFSETS.get("win_fanfare", 0.0)
 	add_child(_fanfare_player)
+
+	var casino_stream := preload("res://Assets/Audio/ambience_casino.ogg") as AudioStreamOggVorbis
+	casino_stream.loop = true
+	_casino_ambience_player = AudioStreamPlayer.new()
+	_casino_ambience_player.bus = &"Ambience"
+	_casino_ambience_player.stream = casino_stream
+	_casino_ambience_player.volume_db = VOLUME_OFFSETS.get("ambience_casino", 0.0)
+	add_child(_casino_ambience_player)
+
+	var wind_stream := preload("res://Assets/Audio/ambience_wind.ogg") as AudioStreamOggVorbis
+	wind_stream.loop = true
+	_wind_ambience_player = AudioStreamPlayer.new()
+	_wind_ambience_player.bus = &"Ambience"
+	_wind_ambience_player.stream = wind_stream
+	_wind_ambience_player.volume_db = VOLUME_OFFSETS.get("ambience_wind", 0.0)
+	add_child(_wind_ambience_player)
 
 
 func play_ui(key: String) -> void:
@@ -140,6 +162,23 @@ func stop_timer_tick() -> void:
 		_timer_loop_player.stop()
 
 
+func start_casino_ambience() -> void:
+	_wind_ambience_player.stop()
+	if not _casino_ambience_player.playing:
+		_casino_ambience_player.play()
+
+
+func start_wind_ambience() -> void:
+	_casino_ambience_player.stop()
+	if not _wind_ambience_player.playing:
+		_wind_ambience_player.play()
+
+
+func stop_ambience() -> void:
+	_casino_ambience_player.stop()
+	_wind_ambience_player.stop()
+
+
 func stop_all() -> void:
 	for p: AudioStreamPlayer in _ui_pool:
 		p.stop()
@@ -148,3 +187,5 @@ func stop_all() -> void:
 	_wheel_loop_player.stop()
 	_timer_loop_player.stop()
 	_fanfare_player.stop()
+	_casino_ambience_player.stop()
+	_wind_ambience_player.stop()

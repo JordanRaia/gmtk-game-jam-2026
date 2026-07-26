@@ -13,6 +13,7 @@ func _ready() -> void:
 
 
 func show_win_screen() -> void:
+	AudioManager.start_wind_ambience()
 	AudioManager.play_ui("win_fanfare")
 	modulate.a = 0.0
 	visible = true

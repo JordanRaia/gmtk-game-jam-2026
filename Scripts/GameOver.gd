@@ -14,6 +14,7 @@ func _connect_button_hovers(node: Node) -> void:
 
 
 func show_game_over() -> void:
+	AudioManager.start_wind_ambience()
 	AudioManager.play_ui("game_over")
 	modulate.a = 0.0
 	visible = true
