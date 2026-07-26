@@ -1808,8 +1808,6 @@ anchors_preset = 0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="TutorialLayer/TutorialOverlay/DialogPanel" unique_id=9909]
-custom_maximum_size = Vector2(1, 1)
-clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
