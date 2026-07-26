@@ -1,6 +1,7 @@
 extends Node2D
 
 
+@onready var background: TextureRect = $CanvasLayer/TextureRect
 @onready var pause_menu: Control = $PauseMenuLayer/PauseMenu
 @onready var game_over: Control = $GameOverLayer/GameOver
 @onready var win_screen: Control = $WinScreenLayer/WinScreen
@@ -28,6 +29,12 @@ extends Node2D
 # Roulette wheel pivot (Node2D at the center of the wheel graphic)
 @onready var wheel_pivot: Node2D = $CanvasLayer/WheelPivot
 
+@onready var item_select_panel: Control = $ItemLayer/ItemSelectPanel
+@onready var tutorial_overlay: Control = $TutorialLayer/TutorialOverlay
+
+const CARPET_NORMAL: Texture2D = preload("res://Assets/art/carpet.png")
+const CARPET_PURPLE: Texture2D = preload("res://Assets/art/purplecarpet.png")
+
 var is_spinning: bool = false
 var _game_over_triggered: bool = false
 var _error_banner_showing: bool = false
@@ -43,6 +50,7 @@ var _luck_elapsed: float = 0.0
 var _pending_winning_number: int = 0
 var _luck_decay_accum: float = 0.0
 
+
 func _ready() -> void:
 	add_to_group("main_scene")
 	_apply_stage_config()
@@ -53,15 +61,15 @@ func _ready() -> void:
 	chip_25000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 25000))
 	chip_50000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 50000))
 	chip_100000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 100000))
-	
+
 	# Connect the animation finished signal to handle post-pull logic
 	spin_lever.animation_finished.connect(_on_lever_animation_finished)
-	
+
 	# Connect the wheel spin finished signal
 	wheel_pivot.spin_finished.connect(_on_wheel_spin_finished)
-	
+
 	reset_chips_button.pressed.connect(_on_reset_chips_pressed)
-	
+
 	# Start looping the idle animation (first 8 frames)
 	spin_lever.play("idle")
 
@@ -75,14 +83,24 @@ func _ready() -> void:
 
 	_check_table_minimum()
 
+	# Wire item panel signals
+	item_select_panel.panel_closed.connect(_on_item_panel_closed)
+	ItemSystem.request_lighter_effect.connect(apply_lighter)
+	ItemSystem.request_smoke_bomb_effect.connect(apply_smoke_bomb)
+
+	if GameState.current_stage == 1 and not GameState.tutorial_seen:
+		call_deferred("_start_tutorial")
+
 
 func _apply_stage_config() -> void:
 	var cfg: Array = GameState.get_stage_config()
-	var chips_available: Array = cfg[4]
 
 	table_limits_board.min_value = cfg[2]
 	table_limits_board.max_value = cfg[3]
 	GameState.luck_meter = cfg[5]
+
+	var stage: int = GameState.current_stage
+	background.texture = CARPET_PURPLE if (stage == 2 or stage == 4) else CARPET_NORMAL
 
 	var table_max: int = cfg[3]
 	chip_1000.visible = 1000 <= table_max
@@ -92,12 +110,14 @@ func _apply_stage_config() -> void:
 	chip_50000.visible = 50000 <= table_max
 	chip_100000.visible = 100000 <= table_max
 
+
 func _set_banner_y(y: float) -> void:
 	var banner_tex_size: Vector2 = error_banner.get_texture().get_size()
 	var viewport_width: float = get_viewport().get_visible_rect().size.x
 	var x: float = (viewport_width - banner_tex_size.x) / 2.0
 	error_banner.position = Vector2(x, y)
 	error_label.position = Vector2(x + 120.0, y + 15.0)
+
 
 func show_error_banner(message: String) -> void:
 	if _error_banner_showing:
@@ -115,6 +135,7 @@ func show_error_banner(message: String) -> void:
 	tween.tween_method(_set_banner_y, shown_y, parked_y, 0.35).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_callback(func() -> void: _error_banner_showing = false)
 
+
 func _dismiss_miku() -> void:
 	if _miku_tween != null:
 		_miku_tween.kill()
@@ -124,6 +145,7 @@ func _dismiss_miku() -> void:
 	miku_sprite.position.x = - (scaled_half_width + 20.0)
 	miku_sprite.stop()
 	_miku_showing = false
+
 
 func show_miku(happy: bool) -> void:
 	if _miku_showing:
@@ -150,13 +172,16 @@ func show_miku(happy: bool) -> void:
 		.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	_miku_tween.tween_callback(func() -> void: _miku_showing = false)
 
+
 func _on_chip_gui_input(event: InputEvent, amount: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		_on_chip_selected(amount)
 
+
 func _on_chip_selected(amount: int) -> void:
 	GameState.current_selected_chip = amount
 	print("Selected chip value: ", GameState.current_selected_chip)
+
 
 func _process(delta: float) -> void:
 	if GameState.time_remaining > 0:
@@ -166,14 +191,14 @@ func _process(delta: float) -> void:
 		_dismiss_miku()
 		game_over.show_game_over()
 
-	# Passive luck decay — 0.5 points per second, accumulated to avoid float truncation
+	# Passive luck decay — 1.5 points per second, accumulated to avoid float truncation
 	_luck_decay_accum += 1.5 * delta
 	if _luck_decay_accum >= 1.0:
 		var decay: int = int(_luck_decay_accum)
 		_luck_decay_accum -= float(decay)
 		GameState.luck_meter = max(0, GameState.luck_meter - decay)
-	
-	
+
+
 	# --- Update Luck Dial Rotation (animated) ---
 	var real_luck: int = clamp(GameState.luck_meter, 0, 100)
 	if real_luck != _luck_target:
@@ -190,6 +215,7 @@ func _process(delta: float) -> void:
 	var luck_normalized: float = _display_luck / 100.0
 	luck_dial.rotation = deg_to_rad(lerp(-90.0, 90.0, luck_normalized))
 
+
 # Triggered automatically when the 'pull' animation completes
 func _on_lever_animation_finished() -> void:
 	if spin_lever.animation == "pull":
@@ -198,27 +224,42 @@ func _on_lever_animation_finished() -> void:
 		# Return lever to idle — is_spinning stays true until the ball lands
 		spin_lever.play("idle")
 
+
 ## Calculates the winning number using existing luck math, then starts the ball animation.
 ## Results are NOT applied yet — that happens in _on_wheel_spin_finished.
 func _calculate_and_start_spin() -> void:
+	# Save a snapshot of state right before this spin resolves.
+	ItemSystem.save_spin_snapshot()
+
 	var red_numbers: Array = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
 	var black_numbers: Array = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
 
-	# --- Luck System ---
-	var best_number: int = randi() % 38
-	var best_payout: int = -1
-	for candidate in range(38):
-		var candidate_payout: int = _calculate_payout_for_number(candidate, red_numbers, black_numbers)
-		if candidate_payout > best_payout:
-			best_payout = candidate_payout
-			best_number = candidate
-
 	var winning_number: int
-	if randf() < (GameState.luck_meter / 100.0):
-		winning_number = best_number
-		print("★ LUCK (", GameState.luck_meter, "%) steered result to: ", winning_number, " (payout: $", best_payout, ")")
+
+	if ItemSystem.miku_plush_active:
+		if ItemSystem.miku_plush_enhanced:
+			# Force the number that yields the worst possible payout (min payout for all bets).
+			winning_number = _find_worst_number(red_numbers, black_numbers)
+			print("★ MIKU PLUSHIE (ENHANCED): forced worst outcome: ", winning_number)
+		else:
+			# Pure random — skip luck bias entirely.
+			winning_number = randi() % 38
+			print("★ MIKU PLUSHIE: forced pure random outcome: ", winning_number)
 	else:
-		winning_number = randi() % 38
+		# --- Standard Luck System ---
+		var best_number: int = randi() % 38
+		var best_payout: int = -1
+		for candidate in range(38):
+			var candidate_payout: int = _calculate_payout_for_number(candidate, red_numbers, black_numbers)
+			if candidate_payout > best_payout:
+				best_payout = candidate_payout
+				best_number = candidate
+
+		if randf() < (GameState.luck_meter / 100.0):
+			winning_number = best_number
+			print("★ LUCK (", GameState.luck_meter, "%) steered result to: ", winning_number, " (payout: $", best_payout, ")")
+		else:
+			winning_number = randi() % 38
 
 	_pending_winning_number = winning_number
 
@@ -232,10 +273,70 @@ func _calculate_and_start_spin() -> void:
 
 	wheel_pivot.start_spin(winning_number)
 
+
+## Returns the number (0–37) that produces the lowest payout for the current active bets.
+func _find_worst_number(red_numbers: Array, black_numbers: Array) -> int:
+	var worst_number: int = 0
+	var worst_payout: int = _calculate_payout_for_number(0, red_numbers, black_numbers)
+	for candidate in range(1, 38):
+		var payout: int = _calculate_payout_for_number(candidate, red_numbers, black_numbers)
+		if payout < worst_payout:
+			worst_payout = payout
+			worst_number = candidate
+	return worst_number
+
+
 ## Called when the ball animation finishes landing. Applies all bet results.
 func _on_wheel_spin_finished(winning_number: int) -> void:
-	_apply_spin_results(winning_number)
+	var net_winnings: int = _apply_spin_results(winning_number)
+
+	if GameState.balance <= 0:
+		is_spinning = false
+		return
+
+	ItemSystem.on_spin_complete(net_winnings)
+
+	if ItemSystem.should_offer_items():
+		ItemSystem.consume_offer()
+		var offered: Array[String] = ItemSystem.get_draft_offer()
+		# Wait so the player can see the balance change and Miku reaction.
+		await get_tree().create_timer(2.0).timeout
+		item_select_panel.open(offered)
+		get_tree().paused = true
+		# is_spinning is cleared in _on_item_panel_closed after the player picks.
+	else:
+		is_spinning = false
+
+
+func _on_item_panel_closed() -> void:
 	is_spinning = false
+	if GameState.balance <= 0:
+		return
+	get_tree().paused = false
+
+
+## Lighter effect: subtract largest recorded win from balance.
+func apply_lighter() -> void:
+	var amount: int = ItemSystem.get_lighter_subtract_amount()
+	GameState.balance = max(0, GameState.balance - amount)
+	print("Lighter: subtracted $", amount, " from balance. New balance: $", GameState.balance)
+	if GameState.balance <= 0:
+		_dismiss_miku()
+		win_screen.show_win_screen()
+
+
+## Smoke Bomb effect: restore state from a past snapshot.
+func apply_smoke_bomb() -> void:
+	if ItemSystem.largest_win_amount <= 0:
+		print("Smoke Bomb: no wins to clear.")
+		return
+	# Base (1st use): remove 75% of largest win. Enhanced (2nd+ use): remove 100%.
+	var fraction: float = 1.0 if ItemSystem.smokebomb_times_used > 1 else 0.75
+	var amount: int = int(float(ItemSystem.largest_win_amount) * fraction)
+	GameState.balance = max(0, GameState.balance - amount)
+	print("Smoke Bomb: removed $", amount, " (", int(fraction * 100), "% of $", ItemSystem.largest_win_amount, ") from balance.")
+	_check_table_minimum()
+
 
 ## Returns the total payout a given wheel number would produce for current active bets.
 func _calculate_payout_for_number(num: int, red_numbers: Array, black_numbers: Array) -> int:
@@ -290,7 +391,9 @@ func _calculate_payout_for_number(num: int, red_numbers: Array, black_numbers: A
 	return total
 
 
-func _apply_spin_results(winning_number: int) -> void:
+## Resolves all bets and updates GameState. Returns the net winnings (how much was gained
+## above what was bet; positive means the player won money they didn't want).
+func _apply_spin_results(winning_number: int) -> int:
 	var red_numbers: Array = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
 	var black_numbers: Array = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
 
@@ -350,10 +453,20 @@ func _apply_spin_results(winning_number: int) -> void:
 		else:
 			print("SUCCESS (LOST) bet on ", bet_id, "! Money burned.")
 
+	# Apply Magic Trick: reduce payout before adding to balance.
+	# Clears only when it actually fires (a winning spin); losing spins leave it active.
+	if ItemSystem.magic_trick_active and total_winnings > 0:
+		var reduced: int = int(float(total_winnings) * ItemSystem.magic_trick_fraction)
+		print("Magic Trick: payout reduced from $", total_winnings, " to $", reduced,
+			" (", int(ItemSystem.magic_trick_fraction * 100), "%)")
+		total_winnings = reduced
+		ItemSystem.magic_trick_active = false
+
 	var net_loss: int = total_bet - total_winnings
+	var net_winnings: int = max(0, total_winnings - total_bet)
+
 	if total_winnings > 0:
 		var post_win_balance: int = GameState.balance + total_winnings
-		var net_winnings: int = max(0, total_winnings - total_bet)
 		if net_winnings > 0:
 			var luck_multiplier: float = 1.0 + (float(GameState.luck_meter) / 100.0)
 			var luck_drain: int = clamp(int(float(net_winnings) / float(post_win_balance) * 150.0 * luck_multiplier), 5, 100)
@@ -369,8 +482,21 @@ func _apply_spin_results(winning_number: int) -> void:
 
 	if net_loss > 0:
 		var luck_gain: int = clamp(int(float(net_loss) / float(GameState.starting_balance) * 100.0), 1, 100)
-		GameState.luck_meter = min(100, GameState.luck_meter + luck_gain)
-		print("Luck gained by ", luck_gain, "% (net loss: $", net_loss, " vs starting balance: $", GameState.starting_balance, ")")
+
+		# Rabbit's Arm lock: no luck gain at all while active.
+		if ItemSystem.luck_locked_rolls > 0:
+			print("Rabbit's Arm lock: luck gain blocked (", ItemSystem.luck_locked_rolls, " rolls left).")
+			luck_gain = 0
+		# Crow: reduce how much luck we gain from losses.
+		elif ItemSystem.crow_rolls_remaining > 0:
+			var reduced_gain: int = int(float(luck_gain) * ItemSystem.crow_luck_multiplier)
+			print("Crow: luck gain reduced from ", luck_gain, " to ", reduced_gain,
+				" (multiplier: ", ItemSystem.crow_luck_multiplier, ")")
+			luck_gain = reduced_gain
+
+		if luck_gain > 0:
+			GameState.luck_meter = min(100, GameState.luck_meter + luck_gain)
+			print("Luck gained by ", luck_gain, "% (net loss: $", net_loss, " vs starting balance: $", GameState.starting_balance, ")")
 
 	if net_loss > 0:
 		show_miku(true)
@@ -383,17 +509,22 @@ func _apply_spin_results(winning_number: int) -> void:
 		chip.queue_free()
 
 	if GameState.balance <= 0:
+		_dismiss_miku()
 		win_screen.show_win_screen()
-		return
+		return net_winnings
 
 	_check_table_minimum()
+	return net_winnings
 
 
 ## Drops the table minimum to $0 if the player's balance is below it,
-## allowing them to bet everything they have left.
+## allowing them to bet everything they have left. Restores the real
+## minimum when the balance is sufficient again.
 func _check_table_minimum() -> void:
 	if GameState.balance < GameState.table_min_bet:
 		table_limits_board.min_value = 0
+	else:
+		table_limits_board.min_value = GameState.table_min_bet
 
 
 func _on_control_gui_input(event: InputEvent) -> void:
@@ -424,3 +555,49 @@ func _on_reset_chips_pressed() -> void:
 	GameState.active_bets.clear()
 	for chip in get_tree().get_nodes_in_group("placed_chips"):
 		chip.queue_free()
+	_check_table_minimum()
+
+
+func _get_node_screen_rect(node: Control, pad: float = 8.0) -> Rect2:
+	var xform: Transform2D = node.get_global_transform()
+	var tl: Vector2 = xform * Vector2.ZERO
+	var top_r: Vector2 = xform * Vector2(node.size.x, 0.0)
+	var bl: Vector2 = xform * Vector2(0.0, node.size.y)
+	var br: Vector2 = xform * node.size
+	var min_x: float = minf(minf(tl.x, top_r.x), minf(bl.x, br.x))
+	var min_y: float = minf(minf(tl.y, top_r.y), minf(bl.y, br.y))
+	var max_x: float = maxf(maxf(tl.x, top_r.x), maxf(bl.x, br.x))
+	var max_y: float = maxf(maxf(tl.y, top_r.y), maxf(bl.y, br.y))
+	return Rect2(min_x - pad, min_y - pad, (max_x - min_x) + pad * 2.0, (max_y - min_y) + pad * 2.0)
+
+
+func _start_tutorial() -> void:
+	var steps: Array[Dictionary] = [
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/Balance).merge(
+					_get_node_screen_rect($CanvasLayer/UI_Layer/Balance/Digits)).grow_individual(0.0, 0.0, 90.0, 0.0),
+			"text": "This is your BALANCE. you start with $50,000.\nYour goal is to reach $0 before time runs out.\nReach $0 and you WIN the round!"
+		},
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/Timer).grow_individual(0.0, 0.0, 60.0, 0.0),
+			"text": "This is your TIME. If it runs out before your balance hits $0, it's GAME OVER."
+		},
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/PanelContainer),
+			"text": "Drag a chip from here onto the roulette table to place a bet.\nBigger chips = faster losses!"
+		},
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/RouletteTable),
+			"text": "Bets that LOSE burn your money = great!\nBets that WIN add money back = bad!\nTry to bet on less likely outcomes. Pull the lever on the right to spin!"
+		},
+		{
+			"rect": _get_node_screen_rect($CanvasLayer/UI_Layer/LuckGauge/LuckBox).merge(
+					_get_node_screen_rect($CanvasLayer/UI_Layer/LuckGauge/LuckMeter)),
+			"text": "This is your LUCK meter. High luck steers the wheel toward your bets, making you WIN more often.\nThat's the LAST thing you want. Keep luck LOW!"
+		},
+		{
+			"rect": Rect2(),
+			"text": "After every few spins, you'll be offered special ITEMS to help you lose money faster.\n\nThere are %d stages total — beat them all to win!\nNow go broke. Good luck... or bad luck, I guess." % GameState.STAGE_CONFIG.size()
+		},
+	]
+	tutorial_overlay.start(steps)

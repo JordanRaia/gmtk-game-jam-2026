@@ -33,6 +33,7 @@ var time_remaining: float = 180.0
 var luck_meter: int = 50
 var current_selected_chip: int = 1000
 var active_bets: Dictionary = {}
+var tutorial_seen: bool = false
 
 # Set by TableLimitsBoard — enforced when betting and spinning
 var table_min_bet: int = 500

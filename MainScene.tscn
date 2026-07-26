@@ -81,6 +81,12 @@
 [ext_resource type="Texture2D" uid="uid://bmhtnwaq8a686" path="res://Assets/art/winscreen/win_0013.png" id="109_70s5d"]
 [ext_resource type="Texture2D" uid="uid://cy3r21mhscpeg" path="res://Assets/art/nextbutton.png" id="110_wijga"]
 [ext_resource type="Texture2D" uid="uid://dsl7230xtreb8" path="res://Assets/art/nextbuttonhover.png" id="111_fto4x"]
+[ext_resource type="Script" uid="uid://ditmselpnl26x" path="res://Scripts/ItemSelectPanel.gd" id="200_itmpl"]
+[ext_resource type="Script" uid="uid://bitmbutn4x2j6" path="res://Scripts/ItemButton.gd" id="201_itmbtn"]
+[ext_resource type="Texture2D" uid="uid://k75ynw4rnjjx" path="res://Assets/art/selectitem.png" id="202_selitm"]
+[ext_resource type="Texture2D" uid="uid://dotk1nlnbi4ns" path="res://Assets/art/itemsubbox.png" id="203_isbx"]
+[ext_resource type="Texture2D" uid="uid://bkb0dk3bwqogg" path="res://Assets/art/itemsubboxhover.png" id="204_isbxhv"]
+[ext_resource type="Script" uid="uid://ditmsdsp3y6x1" path="res://Scripts/ItemsDisplay.gd" id="206_itmsdsp"]
 [ext_resource type="Texture2D" uid="uid://djacglfaa5wh6" path="res://Assets/art/game over screen/gameover_0000.png" id="go_0"]
 [ext_resource type="Texture2D" uid="uid://sfi100s2ys7c" path="res://Assets/art/game over screen/gameover_0001.png" id="go_1"]
 [ext_resource type="Texture2D" uid="uid://bsyy6ufb7gk4h" path="res://Assets/art/game over screen/gameover_0002.png" id="go_2"]
@@ -112,6 +118,7 @@
 [ext_resource type="Texture2D" uid="uid://dicj7sv7q3mak" path="res://Assets/art/pausescreen/pausescreen_0012.png" id="ps_12"]
 [ext_resource type="Texture2D" uid="uid://bw7ol1l4cd5m1" path="res://Assets/art/pausescreen/pausescreen_0013.png" id="ps_13"]
 [ext_resource type="Texture2D" uid="uid://c13fsc8b5cxmq" path="res://Assets/art/pausescreen/pausescreen_0014.png" id="ps_14"]
+[ext_resource type="Script" uid="uid://ctut0verlayo1" path="res://Scripts/TutorialOverlay.gd" id="tut_overlay"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d30vs"]
 texture = ExtResource("3_k2m8n")
@@ -1281,6 +1288,7 @@ size_flags_vertical = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("206_itmsdsp")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/UI_Layer/Items" unique_id=1177560614]
 layout_mode = 0
@@ -1492,6 +1500,282 @@ grow_horizontal = 2
 grow_vertical = 0
 texture_normal = ExtResource("110_wijga")
 texture_hover = ExtResource("111_fto4x")
+
+[node name="ItemLayer" type="CanvasLayer" parent="." unique_id=-2094967295]
+layer = 5
+
+[node name="ItemSelectPanel" type="Control" parent="ItemLayer" unique_id=-2094967294]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("200_itmpl")
+
+[node name="DimOverlay" type="ColorRect" parent="ItemLayer/ItemSelectPanel" unique_id=-2094967293]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="PanelBG" type="TextureRect" parent="ItemLayer/ItemSelectPanel" unique_id=-2094967292]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -225.0
+offset_right = 275.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("202_selitm")
+stretch_mode = 5
+
+[node name="ItemButton0" type="Control" parent="ItemLayer/ItemSelectPanel" unique_id=-2094967291]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -150.0
+offset_right = 210.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("201_itmbtn")
+
+[node name="BG" type="TextureButton" parent="ItemLayer/ItemSelectPanel/ItemButton0" unique_id=-2094967290]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -67.0
+offset_top = -74.0
+offset_right = 67.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("203_isbx")
+texture_pressed = ExtResource("204_isbxhv")
+texture_hover = ExtResource("204_isbxhv")
+
+[node name="Icon" type="TextureRect" parent="ItemLayer/ItemSelectPanel/ItemButton0/BG" unique_id=-2094967289]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 40.0
+offset_right = 173.0
+offset_bottom = 163.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="ItemLayer/ItemSelectPanel/ItemButton0/BG" unique_id=-2094967288]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 48.0
+offset_right = 516.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 16
+text = "Item Name"
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="ItemLayer/ItemSelectPanel/ItemButton0/BG" unique_id=-2094967287]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 92.0
+offset_right = 516.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 12
+text = "Description"
+vertical_alignment = 1
+
+[node name="ItemButton1" type="Control" parent="ItemLayer/ItemSelectPanel" unique_id=-2094967286]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -35.0
+offset_right = 210.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("201_itmbtn")
+
+[node name="BG" type="TextureButton" parent="ItemLayer/ItemSelectPanel/ItemButton1" unique_id=-2094967285]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -67.0
+offset_top = -26.0
+offset_right = 67.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("203_isbx")
+texture_pressed = ExtResource("204_isbxhv")
+texture_hover = ExtResource("204_isbxhv")
+
+[node name="Icon" type="TextureRect" parent="ItemLayer/ItemSelectPanel/ItemButton1/BG" unique_id=-2094967284]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 40.0
+offset_right = 173.0
+offset_bottom = 163.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="ItemLayer/ItemSelectPanel/ItemButton1/BG" unique_id=-2094967283]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 48.0
+offset_right = 516.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 16
+text = "Item Name"
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="ItemLayer/ItemSelectPanel/ItemButton1/BG" unique_id=-2094967282]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 92.0
+offset_right = 516.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 12
+text = "Description"
+vertical_alignment = 1
+
+[node name="ItemButton2" type="Control" parent="ItemLayer/ItemSelectPanel" unique_id=-2094967281]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = 80.0
+offset_right = 210.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("201_itmbtn")
+
+[node name="BG" type="TextureButton" parent="ItemLayer/ItemSelectPanel/ItemButton2" unique_id=-2094967280]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -67.0
+offset_top = 30.0
+offset_right = 67.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("203_isbx")
+texture_pressed = ExtResource("204_isbxhv")
+texture_hover = ExtResource("204_isbxhv")
+
+[node name="Icon" type="TextureRect" parent="ItemLayer/ItemSelectPanel/ItemButton2/BG" unique_id=-2094967279]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 40.0
+offset_right = 173.0
+offset_bottom = 163.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameLabel" type="Label" parent="ItemLayer/ItemSelectPanel/ItemButton2/BG" unique_id=-2094967278]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 48.0
+offset_right = 516.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 16
+text = "Item Name"
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="ItemLayer/ItemSelectPanel/ItemButton2/BG" unique_id=-2094967277]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 92.0
+offset_right = 516.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 12
+text = "Description"
+vertical_alignment = 1
+
+[node name="TutorialLayer" type="CanvasLayer" parent="." unique_id=9901]
+layer = 20
+
+[node name="TutorialOverlay" type="Control" parent="TutorialLayer" unique_id=9902]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("tut_overlay")
+
+[node name="DimTop" type="ColorRect" parent="TutorialLayer/TutorialOverlay" unique_id=9903]
+layout_mode = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="DimBottom" type="ColorRect" parent="TutorialLayer/TutorialOverlay" unique_id=9904]
+layout_mode = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="DimLeft" type="ColorRect" parent="TutorialLayer/TutorialOverlay" unique_id=9905]
+layout_mode = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="DimRight" type="ColorRect" parent="TutorialLayer/TutorialOverlay" unique_id=9906]
+layout_mode = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="DialogPanel" type="Control" parent="TutorialLayer/TutorialOverlay" unique_id=9907]
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="TutorialLayer/TutorialOverlay/DialogPanel" unique_id=9909]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = -14.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HintLabel" type="Label" parent="TutorialLayer/TutorialOverlay" unique_id=9910]
+layout_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.75)
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
 
 [connection signal="gui_input" from="CanvasLayer/UI_Layer/PanelContainer/ChipTray/SpinLever/Control" to="." method="_on_control_gui_input"]
 [connection signal="pressed" from="PauseMenuLayer/PauseMenu/ContinueButton" to="PauseMenuLayer/PauseMenu" method="_on_continue_pressed"]
