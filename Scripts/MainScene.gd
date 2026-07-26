@@ -55,6 +55,7 @@ func _ready() -> void:
 	add_to_group("main_scene")
 	_apply_stage_config()
 	AudioManager.start_casino_ambience()
+	AudioManager.start_music()
 
 	chip_1000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 1000))
 	chip_5000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 5000))

@@ -81,6 +81,14 @@
 [ext_resource type="Texture2D" uid="uid://bmhtnwaq8a686" path="res://Assets/art/winscreen/win_0013.png" id="109_70s5d"]
 [ext_resource type="Texture2D" uid="uid://cy3r21mhscpeg" path="res://Assets/art/nextbutton.png" id="110_wijga"]
 [ext_resource type="Texture2D" uid="uid://dsl7230xtreb8" path="res://Assets/art/nextbuttonhover.png" id="111_fto4x"]
+[ext_resource type="Texture2D" uid="uid://coqgbrnrc81p" path="res://Assets/art/endingwinscreen/endingwinscreen_0000.png" id="120_ews00"]
+[ext_resource type="Texture2D" uid="uid://dtbm46y1htf4y" path="res://Assets/art/endingwinscreen/endingwinscreen_0001.png" id="121_ews01"]
+[ext_resource type="Texture2D" uid="uid://c0cl8hx2xqsr6" path="res://Assets/art/endingwinscreen/endingwinscreen_0002.png" id="122_ews02"]
+[ext_resource type="Texture2D" uid="uid://be771iwnaeepc" path="res://Assets/art/endingwinscreen/endingwinscreen_0003.png" id="123_ews03"]
+[ext_resource type="Texture2D" uid="uid://bc3dsmfgv40cd" path="res://Assets/art/endingwinscreen/endingwinscreen_0004.png" id="124_ews04"]
+[ext_resource type="Texture2D" uid="uid://cdtyv2268qm0f" path="res://Assets/art/endingwinscreen/endingwinscreen_0005.png" id="125_ews05"]
+[ext_resource type="Texture2D" uid="uid://yg6q7vwelwt2" path="res://Assets/art/endingwinscreen/endingwinscreen_0006.png" id="126_ews06"]
+[ext_resource type="Texture2D" uid="uid://v87uemwyywje" path="res://Assets/art/endingwinscreen/endingwinscreen_0007.png" id="127_ews07"]
 [ext_resource type="Script" uid="uid://ditmselpnl26x" path="res://Scripts/ItemSelectPanel.gd" id="200_itmpl"]
 [ext_resource type="Script" uid="uid://bitmbutn4x2j6" path="res://Scripts/ItemButton.gd" id="201_itmbtn"]
 [ext_resource type="Texture2D" uid="uid://k75ynw4rnjjx" path="res://Assets/art/selectitem.png" id="202_selitm"]
@@ -360,6 +368,35 @@ animations = [{
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jsacn"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("120_ews00")
+}, {
+"duration": 1.0,
+"texture": ExtResource("121_ews01")
+}, {
+"duration": 1.0,
+"texture": ExtResource("122_ews02")
+}, {
+"duration": 1.0,
+"texture": ExtResource("123_ews03")
+}, {
+"duration": 1.0,
+"texture": ExtResource("124_ews04")
+}, {
+"duration": 1.0,
+"texture": ExtResource("125_ews05")
+}, {
+"duration": 1.0,
+"texture": ExtResource("126_ews06")
+}, {
+"duration": 1.0,
+"texture": ExtResource("127_ews07")
+}],
+"loop": 1,
+"name": &"ending",
+"speed": 12.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("96_3bhbc")
@@ -1483,7 +1520,6 @@ script = ExtResource("96_fto4x")
 position = Vector2(640, 360)
 sprite_frames = SubResource("SpriteFrames_jsacn")
 animation = &"show"
-frame_progress = 0.29703963
 
 [node name="NextButton" type="TextureButton" parent="WinScreenLayer/WinScreen" unique_id=719483183]
 layout_mode = 1
@@ -1500,6 +1536,22 @@ grow_horizontal = 2
 grow_vertical = 0
 texture_normal = ExtResource("110_wijga")
 texture_hover = ExtResource("111_fto4x")
+
+[node name="QuitButton" type="TextureButton" parent="WinScreenLayer/WinScreen" unique_id=980123456]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -71.0
+offset_right = 162.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("42_pj2c0")
+texture_hover = ExtResource("43_g1j4k")
 
 [node name="ItemLayer" type="CanvasLayer" parent="." unique_id=-2094967295]
 layer = 5
@@ -1756,6 +1808,8 @@ anchors_preset = 0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="TutorialLayer/TutorialOverlay/DialogPanel" unique_id=9909]
+custom_maximum_size = Vector2(1, 1)
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

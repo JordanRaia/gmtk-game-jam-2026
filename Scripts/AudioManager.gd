@@ -29,6 +29,10 @@ const VOLUME_OFFSETS: Dictionary = {
 	"button_click": - 4.0,
 	"slide_advance": - 8.0,
 	"error": - 10.0,
+	"pause_open": - 14.0,
+	"pause_close": - 14.0,
+	# Music (Music bus is already at -6 dB; this fine-tunes on top)
+	"music_gameplay": - 10.0, # -10 dB total
 	# Ambience (Ambience bus is already at -12 dB; these fine-tune on top)
 	"ambience_casino": - 8.0, # -20 dB total
 	"ambience_wind": 0.0, # -12 dB total
@@ -52,6 +56,7 @@ var _timer_loop_player: AudioStreamPlayer
 var _fanfare_player: AudioStreamPlayer
 var _casino_ambience_player: AudioStreamPlayer
 var _wind_ambience_player: AudioStreamPlayer
+var _music_player: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -104,6 +109,14 @@ func _ready() -> void:
 	_wind_ambience_player.stream = wind_stream
 	_wind_ambience_player.volume_db = VOLUME_OFFSETS.get("ambience_wind", 0.0)
 	add_child(_wind_ambience_player)
+
+	var music_stream := preload("res://Assets/Audio/music_gameplay.ogg") as AudioStreamOggVorbis
+	music_stream.loop = true
+	_music_player = AudioStreamPlayer.new()
+	_music_player.bus = &"Music"
+	_music_player.stream = music_stream
+	_music_player.volume_db = VOLUME_OFFSETS.get("music_gameplay", 0.0)
+	add_child(_music_player)
 
 
 func play_ui(key: String) -> void:
@@ -162,6 +175,15 @@ func stop_timer_tick() -> void:
 		_timer_loop_player.stop()
 
 
+func start_music() -> void:
+	if not _music_player.playing:
+		_music_player.play()
+
+
+func stop_music() -> void:
+	_music_player.stop()
+
+
 func start_casino_ambience() -> void:
 	_wind_ambience_player.stop()
 	if not _casino_ambience_player.playing:
@@ -189,3 +211,4 @@ func stop_all() -> void:
 	_fanfare_player.stop()
 	_casino_ambience_player.stop()
 	_wind_ambience_player.stop()
+	_music_player.stop()
