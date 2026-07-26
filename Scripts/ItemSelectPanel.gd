@@ -32,6 +32,7 @@ func open(offered: Array[String]) -> void:
 
 
 func _on_item_picked(id: String) -> void:
+	AudioManager.play_ui("button_click")
 	if _closing:
 		return
 	_closing = true

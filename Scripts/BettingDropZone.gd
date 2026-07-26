@@ -64,3 +64,4 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	chip_display.z_index = 1000 - int(global_position.x / 10.0)
 	chip_display.add_to_group("placed_chips")
 	add_child(chip_display)
+	AudioManager.play_world("chip_drop")

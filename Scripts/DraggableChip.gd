@@ -85,6 +85,7 @@ func _play_sparkle() -> void:
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
+	AudioManager.play_ui("chip_pickup")
 	var preview_texture := TextureRect.new()
 	preview_texture.texture = texture
 	preview_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE

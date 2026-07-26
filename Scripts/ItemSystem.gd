@@ -32,6 +32,7 @@ var lighter_times_used: int = 0 # 0 = base next use; 1+ = enhanced next use
 # --- Smoke Bomb: restores a past snapshot (instant) ---
 var smokebomb_times_used: int = 0
 var spin_snapshots: Array[Dictionary] = [] # ring of last 2: {balance, luck_meter, time_remaining}
+var last_win_amount: int = 0
 
 # --- Stopwatch: adds time (instant) ---
 var stopwatch_times_used: int = 0
@@ -55,6 +56,7 @@ func reset_for_stage() -> void:
 	miku_plush_active = false
 	miku_plush_enhanced = false
 	largest_win_amount = 0
+	last_win_amount = 0
 	lighter_times_used = 0
 	smokebomb_times_used = 0
 	stopwatch_times_used = 0
@@ -143,7 +145,7 @@ func apply_item(id: String) -> void:
 			_record_item_used(id)
 
 		"smokebomb":
-			if largest_win_amount <= 0:
+			if last_win_amount <= 0:
 				print("Smoke Bomb: no wins to clear!")
 				return
 			smokebomb_times_used += 1
@@ -221,6 +223,9 @@ func on_spin_complete(net_winnings: int) -> void:
 	if net_winnings > largest_win_amount:
 		largest_win_amount = net_winnings
 		print("Lighter: new largest win recorded: $", largest_win_amount)
+
+	if net_winnings > 0:
+		last_win_amount = net_winnings
 
 
 func save_spin_snapshot() -> void:

@@ -59,10 +59,15 @@ func update_board() -> void:
 	
 	# $9,999,999 = 10 chars, which is the max for 10 nodes
 	var safe_min = clamp(min_value, 0, 9999999)
-	var safe_max = clamp(max_value, 0, 9999999)
+	var effective_max: int = ItemSystem.get_effective_max_bet() if ItemSystem else max_value
+	var safe_max = clamp(effective_max, 0, 9999999)
 	
 	set_number_textures(safe_min, min_digits)
 	set_number_textures(safe_max, max_digits)
+
+
+func refresh_display() -> void:
+	update_board()
 
 func set_number_textures(value: int, digit_nodes: Array) -> void:
 	# Build formatted string e.g. 1000 -> "$1,000", 1000000 -> "$1,000,000"
