@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameState="*uid://dspwsauct6ia"
 ItemSystem="*res://Scripts/ItemSystem.gd"
 AudioManager="*res://Scripts/AudioManager.gd"
+ScreenshotManager="*res://Scripts/ScreenshotManager.gd"
 
 [display]
 
