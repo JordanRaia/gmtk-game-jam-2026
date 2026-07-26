@@ -8,10 +8,12 @@ func _ready() -> void:
 	visible = false
 	next_button.visible = false
 	next_button.pressed.connect(_on_next_pressed)
+	next_button.mouse_entered.connect(func() -> void: AudioManager.play_ui("button_hover"))
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
 func show_win_screen() -> void:
+	AudioManager.play_ui("win_fanfare")
 	modulate.a = 0.0
 	visible = true
 	next_button.visible = false
@@ -25,11 +27,13 @@ func show_win_screen() -> void:
 
 
 func _on_next_pressed() -> void:
+	AudioManager.play_ui("button_click")
 	next_button.visible = false
 	var tween: Tween = create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_property(self, "modulate:a", 0.0, 0.4).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_callback(func() -> void:
+		AudioManager.stop_all()
 		get_tree().paused = false
 		GameState.current_stage += 1
 		var cfg: Array = GameState.get_stage_config()

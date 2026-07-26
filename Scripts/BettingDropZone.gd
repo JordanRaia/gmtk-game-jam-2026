@@ -11,10 +11,12 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	var chip_value = data["amount"]
 
 	if get_tree().get_first_node_in_group("main_scene").is_spinning:
+		AudioManager.play_ui("chip_drop_invalid")
 		GameState.show_error.emit("Cannot bet while the wheel is spinning!")
 		return
 
 	if GameState.balance < chip_value:
+		AudioManager.play_ui("chip_drop_invalid")
 		GameState.show_error.emit("Not enough balance!")
 		return
 
@@ -24,6 +26,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	for amount in GameState.active_bets.values():
 		total_all_bets += amount
 	if total_all_bets + chip_value > effective_max:
+		AudioManager.play_ui("chip_drop_invalid")
 		GameState.show_error.emit("Bet exceeds table maximum of $" + GameState.format_money(effective_max) + "!")
 		return
 
@@ -64,3 +67,4 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	chip_display.z_index = 1000 - int(global_position.x / 10.0)
 	chip_display.add_to_group("placed_chips")
 	add_child(chip_display)
+	AudioManager.play_world("chip_drop")

@@ -51,6 +51,7 @@ func _fade_in() -> void:
 	fade_tween.tween_callback(func() -> void: auto_timer.start(DISPLAY_TIME))
 
 func _advance() -> void:
+	AudioManager.play_ui("slide_advance")
 	if is_transitioning:
 		return
 	is_transitioning = true

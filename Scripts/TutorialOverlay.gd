@@ -105,6 +105,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _advance() -> void:
+	AudioManager.play_ui("button_click")
 	_current_step += 1
 	if _current_step >= _steps.size():
 		_finish()

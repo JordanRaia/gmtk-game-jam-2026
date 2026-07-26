@@ -64,10 +64,12 @@ func _update_flash() -> void:
 		return
 
 	if GameState.time_remaining < FLASH_THRESHOLD:
+		AudioManager.start_timer_tick()
 		var t: float = (sin(_flash_time * FLASH_SPEED) + 1.0) / 2.0
 		var flash_color: Color = Color(1.0, t, t, 1.0)
 		for d in digits:
 			d.modulate = flash_color
 	else:
+		AudioManager.stop_timer_tick()
 		for d in digits:
 			d.modulate = Color.WHITE

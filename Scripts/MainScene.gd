@@ -62,6 +62,9 @@ func _ready() -> void:
 	chip_50000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 50000))
 	chip_100000.gui_input.connect(func(event: InputEvent): _on_chip_gui_input(event, 100000))
 
+	for chip_node: TextureRect in [chip_1000, chip_5000, chip_10000, chip_25000, chip_50000, chip_100000]:
+		chip_node.mouse_entered.connect(func() -> void: AudioManager.play_ui("button_hover"))
+
 	# Connect the animation finished signal to handle post-pull logic
 	spin_lever.animation_finished.connect(_on_lever_animation_finished)
 
@@ -120,6 +123,7 @@ func _set_banner_y(y: float) -> void:
 
 
 func show_error_banner(message: String) -> void:
+	AudioManager.play_ui("error")
 	if _error_banner_showing:
 		return
 	_error_banner_showing = true
@@ -188,6 +192,8 @@ func _process(delta: float) -> void:
 		GameState.time_remaining -= delta
 	elif not _game_over_triggered:
 		_game_over_triggered = true
+		AudioManager.play_ui("timer_expired")
+		AudioManager.stop_timer_tick()
 		_dismiss_miku()
 		game_over.show_game_over()
 
@@ -272,6 +278,7 @@ func _calculate_and_start_spin() -> void:
 	print("The winning number is: ", win_str)
 
 	wheel_pivot.start_spin(winning_number)
+	AudioManager.start_wheel_spin()
 
 
 ## Returns the number (0–37) that produces the lowest payout for the current active bets.
@@ -288,6 +295,10 @@ func _find_worst_number(red_numbers: Array, black_numbers: Array) -> int:
 
 ## Called when the ball animation finishes landing. Applies all bet results.
 func _on_wheel_spin_finished(winning_number: int) -> void:
+	AudioManager.stop_wheel_spin()
+	AudioManager.play_world("ball_bouncing")
+	await get_tree().create_timer(0.6).timeout
+	AudioManager.play_world("ball_lands")
 	var net_winnings: int = _apply_spin_results(winning_number)
 
 	if GameState.balance <= 0:
@@ -544,12 +555,14 @@ func _on_control_gui_input(event: InputEvent) -> void:
 			return
 
 		is_spinning = true
+		AudioManager.play_world("lever_pull")
 		spin_lever.play("pull")
 
 
 func _on_reset_chips_pressed() -> void:
 	if is_spinning or GameState.active_bets.is_empty():
 		return
+	AudioManager.play_world("chips_reset")
 	for amount in GameState.active_bets.values():
 		GameState.balance += amount
 	GameState.active_bets.clear()
