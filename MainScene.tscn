@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://bs6bonvhp1tn1" path="res://Assets/art/carpet.png" id="2_8xkvn"]
 [ext_resource type="Script" uid="uid://c74l6cmgccyo8" path="res://Scripts/DraggableChip.gd" id="2_rf2cd"]
 [ext_resource type="Texture2D" uid="uid://dlwph1ucsdxje" path="res://Assets/art/chippanel.png" id="3_k2m8n"]
-[ext_resource type="Texture2D" uid="uid://dx7y44hqxonft" path="res://Assets/PlaceHolders/rouletteboard.png" id="3_uxrcv"]
 [ext_resource type="Script" uid="uid://b4xp81d6dywgf" path="res://Scripts/BettingDropZone.gd" id="4_5crlr"]
 [ext_resource type="Script" uid="uid://nr0io8g5x058" path="res://Scripts/TableLimitsBoard.gd" id="5_a814b"]
 [ext_resource type="Texture2D" uid="uid://yoh5bbv8j7mb" path="res://Assets/tablelimits.png" id="6_5crlr"]
@@ -28,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://dp6i73o632r30" path="res://Assets/art/leveranim/lever_0014.png" id="18_f3pw5"]
 [ext_resource type="Texture2D" uid="uid://bfg5l0p2x5kow" path="res://Assets/art/leveranim/lever_0015.png" id="19_nlw8m"]
 [ext_resource type="Texture2D" uid="uid://bbex76belmnxl" path="res://Assets/art/leveranim/lever_0016.png" id="20_r1x6n"]
+[ext_resource type="Texture2D" uid="uid://60c5yh1griii" path="res://Assets/rouletteboard.png" id="25_mkc8j"]
 [ext_resource type="Texture2D" uid="uid://b52u2edecrtko" path="res://Assets/art/luckbox.png" id="25_obg7t"]
 [ext_resource type="Texture2D" uid="uid://b073dbqx8e3p2" path="res://Assets/art/luckmeter.png" id="26_v3bin"]
 [ext_resource type="Texture2D" uid="uid://cpeek4y4d6y6k" path="res://Assets/art/luckdial.png" id="27_6dw4c"]
@@ -564,7 +564,7 @@ offset_top = -103.0
 offset_right = 936.0
 offset_bottom = 247.0
 grow_vertical = 2
-texture = ExtResource("3_uxrcv")
+texture = ExtResource("25_mkc8j")
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI_Layer/RouletteTable" unique_id=1336192877]
 layout_mode = 0
